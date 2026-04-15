@@ -139,11 +139,11 @@ export default function AnalysisPage() {
 
         {/* Graph */}
         <Card className="min-h-[500px] relative" signalColor="bg-primary">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="label-sm text-white/60">LAP TIME OVERLAY</h2>
-            <div className="flex gap-8">
-              <span className="flex items-center gap-2 text-xs text-white/70"><div className="w-3 h-3 rounded-full bg-primary shadow-[0_0_10px_currentColor]" /> {d1} — {dr1.name}</span>
-              <span className="flex items-center gap-2 text-xs text-white/70"><div className="w-3 h-3 rounded-full bg-white/80" /> {d2} — {dr2.name}</span>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+            <h2 className="label-sm text-white/60 shrink-0">LAP TIME OVERLAY</h2>
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-8 flex-wrap">
+              <span className="flex items-center gap-2 text-xs text-white/70"><div className="w-3 h-3 rounded-full bg-primary shadow-[0_0_10px_currentColor] shrink-0" /> <span className="truncate">{d1} — {dr1.name}</span></span>
+              <span className="flex items-center gap-2 text-xs text-white/70"><div className="w-3 h-3 rounded-full bg-white/80 shrink-0" /> <span className="truncate">{d2} — {dr2.name}</span></span>
             </div>
           </div>
 

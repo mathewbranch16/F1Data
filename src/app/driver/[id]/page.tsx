@@ -47,9 +47,9 @@ export default async function DriverDetailPage({ params }: { params: Promise<{ i
                  <p className="label-sm text-primary mb-3 drop-shadow-[0_0_5px_currentColor] tracking-[0.3em] uppercase">
                     {driverData.team}
                  </p>
-                 <h1 className="font-display text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.9] text-white drop-shadow-[0_20px_30px_rgba(0,0,0,0.4)]">
+                 <h1 className="font-display text-[11vw] sm:text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.9] text-white drop-shadow-[0_20px_30px_rgba(0,0,0,0.4)] break-words max-w-full">
                    <span className="block text-white/40">{firstName}</span>
-                   {lastName}
+                   <span className="block w-full">{lastName}</span>
                  </h1>
               </div>
            </div>
