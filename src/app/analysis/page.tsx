@@ -111,7 +111,7 @@ export default function AnalysisPage() {
           <div className="flex-1">
             <label className="label-sm text-white/40 mb-3 block">DRIVER 1</label>
             <select value={d1} onChange={e => setD1(e.target.value)} disabled={driversLoading}
-              className="w-full bg-white/[0.03] border border-white/5 p-4 rounded-xl text-sm text-white/90 focus:border-primary/50 focus:outline-none transition-colors appearance-none cursor-pointer font-display font-bold text-xl">
+              className="w-full bg-white/[0.03] border border-white/5 p-4 rounded-xl text-sm text-white/90 focus:border-primary/50 focus:outline-none transition-colors appearance-none cursor-pointer font-display font-bold text-base md:text-xl truncate pr-10">
               {drivers.map(c => <option key={c} value={c} className="bg-[#0e0e0e]">{c} — {getDriverData(c).name}</option>)}
             </select>
           </div>
@@ -119,7 +119,7 @@ export default function AnalysisPage() {
           <div className="flex-1">
             <label className="label-sm text-white/40 mb-3 block">DRIVER 2</label>
             <select value={d2} onChange={e => setD2(e.target.value)} disabled={driversLoading}
-              className="w-full bg-white/[0.03] border border-white/5 p-4 rounded-xl text-sm text-white/90 focus:border-primary/50 focus:outline-none transition-colors appearance-none cursor-pointer font-display font-bold text-xl">
+              className="w-full bg-white/[0.03] border border-white/5 p-4 rounded-xl text-sm text-white/90 focus:border-primary/50 focus:outline-none transition-colors appearance-none cursor-pointer font-display font-bold text-base md:text-xl truncate pr-10">
               {drivers.map(c => <option key={c} value={c} className="bg-[#0e0e0e]">{c} — {getDriverData(c).name}</option>)}
             </select>
           </div>

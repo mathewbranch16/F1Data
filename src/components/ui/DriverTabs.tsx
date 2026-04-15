@@ -24,9 +24,9 @@ export function DriverStats({ driverCode }: { driverCode: string }) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full relative z-10">
-       <StatCard title="TOTAL LAPS" value={summary.total_laps} />
-       <StatCard title="BEST LAP" value={formatRawLapTime(summary.best_lap)} glow />
-       <StatCard title="AVERAGE LAP" value={formatRawLapTime(summary.average_lap)} />
+      <StatCard title="TOTAL LAPS" value={summary.total_laps} />
+      <StatCard title="BEST LAP" value={formatRawLapTime(summary.best_lap)} glow />
+      <StatCard title="AVERAGE LAP" value={formatRawLapTime(summary.average_lap)} />
     </div>
   );
 }
@@ -36,7 +36,7 @@ function SkeletonLoaderStats() {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full relative z-10">
       {Array(3).fill(0).map((_, i) => (
         <div key={i} className="h-[140px] rounded-xl bg-white/[0.02] border border-white/[0.02] backdrop-blur-xl animate-pulse flex items-center justify-center">
-           <div className="w-8 h-8 rounded-full border-t-2 border-primary animate-spin" />
+          <div className="w-8 h-8 rounded-full border-t-2 border-primary animate-spin" />
         </div>
       ))}
     </div>
@@ -46,11 +46,11 @@ function SkeletonLoaderStats() {
 function StatCard({ title, value, glow }: { title: string, value: string | number, glow?: boolean }) {
   return (
     <div className={`relative overflow-hidden rounded-xl bg-white/[0.02] border border-white/[0.02] backdrop-blur-xl p-8 flex flex-col justify-center transition-all duration-500 hover:-translate-y-1 hover:bg-white/[0.04] shadow-[0_10px_30px_rgba(0,0,0,0.5)] group`}>
-       {glow && <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors pointer-events-none" />}
-       <p className="label-sm text-white/40 mb-3 tracking-widest uppercase">{title}</p>
-       <p className={`font-display text-4xl md:text-5xl font-bold tracking-tighter ${glow ? 'text-primary drop-shadow-[0_0_8px_currentColor]' : 'text-white drop-shadow-md'}`}>
-         {value}
-       </p>
+      {glow && <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors pointer-events-none" />}
+      <p className="label-sm text-white/40 mb-3 tracking-widest uppercase">{title}</p>
+      <p className={`font-display text-4xl md:text-5xl font-bold tracking-tighter ${glow ? 'text-primary drop-shadow-[0_0_8px_currentColor]' : 'text-white drop-shadow-md'}`}>
+        {value}
+      </p>
     </div>
   );
 }
@@ -81,19 +81,19 @@ export function DriverTabs({ driverCode }: { driverCode: string }) {
     <div className="w-full flex flex-col gap-10 mt-8">
       <div className="flex gap-4 md:gap-8 border-b border-white/[0.05] pb-0 overflow-x-auto hide-scrollbar snap-x relative z-20">
         {TABS.map((tab, idx) => (
-          <button 
-             key={tab}
-             onClick={() => setActiveTab(idx)}
-             className={`pb-4 px-1 label-sm transition-all duration-300 relative whitespace-nowrap outline-none ${activeTab === idx ? "text-primary drop-shadow-[0_0_8px_currentColor]" : "text-white/40 hover:text-white/70"}`}
+          <button
+            key={tab}
+            onClick={() => setActiveTab(idx)}
+            className={`pb-4 px-1 label-sm transition-all duration-300 relative whitespace-nowrap outline-none ${activeTab === idx ? "text-primary drop-shadow-[0_0_8px_currentColor]" : "text-white/40 hover:text-white/70"}`}
           >
-             {tab}
-             {activeTab === idx && (
-               <span className="absolute bottom-[0px] left-0 w-full h-[2px] bg-primary shadow-[0_0_15px_currentColor] transition-all duration-500" />
-             )}
+            {tab}
+            {activeTab === idx && (
+              <span className="absolute bottom-[0px] left-0 w-full h-[2px] bg-primary shadow-[0_0_15px_currentColor] transition-all duration-500" />
+            )}
           </button>
         ))}
       </div>
-      
+
       <div className="relative min-h-[400px]">
         <div key={activeTab} className="animate-tab-in w-full h-full">
           {activeTab === 0 && <SpeedTab telemetry={telemetry} isLoading={loading} driverCode={driverCode} />}
@@ -123,35 +123,35 @@ function parseLapTime(lapTimeStr: string): number | null {
   return null;
 }
 
-const generateSmoothPath = (pts: {lap: number, time: number}[], w: number, h: number, minL: number, maxL: number, minT: number, maxT: number) => {
-    if (pts.length === 0) return "";
-    const scaled = pts.map(d => ({
-        x: 60 + ((d.lap - minL)/(maxL - minL || 1)) * (w - 100),
-        y: 40 + ((h - 100) - ((d.time - minT)/(maxT - minT || 1)) * (h - 100))
-    }));
-    
-    let path = `M ${scaled[0].x},${scaled[0].y}`;
-    for (let i = 0; i < scaled.length - 1; i++) {
-        const p0 = scaled[Math.max(0, i - 1)];
-        const p1 = scaled[i];
-        const p2 = scaled[i + 1];
-        const p3 = scaled[Math.min(scaled.length - 1, i + 2)];
-        
-        const cp1x = p1.x + (p2.x - p0.x) / 6;
-        const cp1y = p1.y + (p2.y - p0.y) / 6;
-        const cp2x = p2.x - (p3.x - p1.x) / 6;
-        const cp2y = p2.y - (p3.y - p1.y) / 6;
-        
-        path += ` C ${cp1x},${cp1y} ${cp2x},${cp2y} ${p2.x},${p2.y}`;
-    }
-    return path;
+const generateSmoothPath = (pts: { lap: number, time: number }[], w: number, h: number, minL: number, maxL: number, minT: number, maxT: number) => {
+  if (pts.length === 0) return "";
+  const scaled = pts.map(d => ({
+    x: 60 + ((d.lap - minL) / (maxL - minL || 1)) * (w - 100),
+    y: 40 + ((h - 100) - ((d.time - minT) / (maxT - minT || 1)) * (h - 100))
+  }));
+
+  let path = `M ${scaled[0].x},${scaled[0].y}`;
+  for (let i = 0; i < scaled.length - 1; i++) {
+    const p0 = scaled[Math.max(0, i - 1)];
+    const p1 = scaled[i];
+    const p2 = scaled[i + 1];
+    const p3 = scaled[Math.min(scaled.length - 1, i + 2)];
+
+    const cp1x = p1.x + (p2.x - p0.x) / 6;
+    const cp1y = p1.y + (p2.y - p0.y) / 6;
+    const cp2x = p2.x - (p3.x - p1.x) / 6;
+    const cp2y = p2.y - (p3.y - p1.y) / 6;
+
+    path += ` C ${cp1x},${cp1y} ${cp2x},${cp2y} ${p2.x},${p2.y}`;
+  }
+  return path;
 };
 
 // ---------------------------------------------
 // [TAB] PERFORMANCE TREND (SPEED)
 // ---------------------------------------------
 function SpeedTab({ telemetry, isLoading, driverCode }: { telemetry: any, isLoading: boolean, driverCode: string }) {
-  const [hoveredLap, setHoveredLap] = useState<{lap: number, time: number} | null>(null);
+  const [hoveredLap, setHoveredLap] = useState<{ lap: number, time: number } | null>(null);
 
   if (isLoading) {
     return <Card className="min-h-[400px] flex items-center justify-center border-none shadow-[0_10px_30px_rgba(0,0,0,0.5)] bg-white/[0.02]" signalColor="bg-primary"><div className="w-12 h-12 border-t-2 border-primary rounded-full animate-spin shadow-[0_0_15px_currentColor]" /></Card>;
@@ -163,7 +163,7 @@ function SpeedTab({ telemetry, isLoading, driverCode }: { telemetry: any, isLoad
     timesArr?.forEach((raw: any, idx: number) => {
       const timeInSecs = typeof raw === 'number' ? raw : parseLapTime(String(raw));
       if (timeInSecs && timeInSecs > 0 && timeInSecs < 200) {
-           dataPoints.push({ lap: telemetry.lap_numbers[idx], time: timeInSecs });
+        dataPoints.push({ lap: telemetry.lap_numbers[idx], time: timeInSecs });
       }
     });
   }
@@ -185,105 +185,120 @@ function SpeedTab({ telemetry, isLoading, driverCode }: { telemetry: any, isLoad
   const getY = (time: number) => paddingY + ((height - paddingY - paddingB) - ((time - minTime) / (maxTime - minTime || 1)) * (height - paddingY - paddingB));
 
   const pathD = generateSmoothPath(dataPoints, width, height, minLap, maxLap, minTime, maxTime);
-  const fillPathD = `${pathD} L ${getX(dataPoints[dataPoints.length-1].lap)},${height-paddingB} L ${getX(dataPoints[0].lap)},${height-paddingB} Z`;
+  const fillPathD = `${pathD} L ${getX(dataPoints[dataPoints.length - 1].lap)},${height - paddingB} L ${getX(dataPoints[0].lap)},${height - paddingB} Z`;
 
   return (
     <Card className="h-auto flex flex-col relative overflow-hidden group border-none shadow-[0_10px_30px_rgba(0,0,0,0.5)] bg-white/[0.02]" signalColor="bg-primary">
-       
-       <div className="w-full bg-black/40 border border-white/[0.05] rounded-xl p-6 mb-8 backdrop-blur-xl relative overflow-hidden group/insight mt-2 mx-2 max-w-[98%]">
-          <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary group-hover/insight:shadow-[0_0_15px_currentColor] transition-all" />
-          <h4 className="label-sm text-white/50 mb-4 flex items-center gap-2">
-             <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-             RACE NARRATIVE
-          </h4>
-          <ul className="space-y-3 font-light text-white/80 text-sm md:text-base leading-relaxed">
-             <li>
-                <span className="text-primary font-bold mr-2 uppercase">Base Pace:</span> 
-                {driverCode} averaged a normative race rhythm holding steady at <span className="font-mono text-white bg-white/10 px-2 py-0.5 rounded">{meanTime.toFixed(2)}s</span>.
-             </li>
-             {anomalies.length > 0 && (
-               <li>
-                  <span className="text-red-500 font-bold mr-2 uppercase">Degradation Detected:</span> 
-                  Spikes tracking substantial pace-loss ({(anomalies[0].time - meanTime).toFixed(1)}s+ deficit) flagged around lap <span className="font-bold text-red-400 drop-shadow-[0_0_8px_currentColor]">{anomalies[anomalies.length > 1 ? Math.floor(anomalies.length/2) : 0].lap}</span> indicating turbulent air or severe compound fatigue.
-               </li>
-             )}
-          </ul>
-       </div>
 
-       <div className="flex justify-between items-end mb-4 px-6 z-20">
-          <div>
-            <h3 className="label-sm mb-1 text-primary drop-shadow-[0_0_5px_currentColor]">PERFORMANCE TREND MATRIX</h3>
-            <p className="text-white/40 text-xs font-light">Race Lap Progression Traces (Seconds)</p>
-          </div>
-          {hoveredLap && (
-             <div className="text-right">
-                <span className="label-sm text-primary block">LAP {hoveredLap.lap}</span>
-                <span className="font-display text-4xl font-bold text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]">{hoveredLap.time.toFixed(3)}s</span>
-                <span className={`text-xs ml-3 ${hoveredLap.time > meanTime ? 'text-red-400' : 'text-primary'}`}>
-                  {hoveredLap.time > meanTime ? `+${(hoveredLap.time - meanTime).toFixed(2)}s Slower` : `-${(meanTime - hoveredLap.time).toFixed(2)}s Faster`}
-                </span>
-             </div>
+      <div className="w-full bg-black/40 border border-white/[0.05] rounded-xl p-6 mb-8 backdrop-blur-xl relative overflow-hidden group/insight mt-2 mx-2 max-w-[98%]">
+        <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary group-hover/insight:shadow-[0_0_15px_currentColor] transition-all" />
+        <h4 className="label-sm text-white/50 mb-4 flex items-center gap-2">
+          <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          RACE NARRATIVE
+        </h4>
+        <ul className="space-y-3 font-light text-white/80 text-sm md:text-base leading-relaxed">
+          <li>
+            <span className="text-primary font-bold mr-2 uppercase">Base Pace:</span>
+            {driverCode} averaged a normative race rhythm holding steady at <span className="font-mono text-white bg-white/10 px-2 py-0.5 rounded">{meanTime.toFixed(2)}s</span>.
+          </li>
+          {anomalies.length > 0 && (
+            <li>
+              <span className="text-red-500 font-bold mr-2 uppercase">Degradation Detected:</span>
+              Spikes tracking substantial pace-loss ({(anomalies[0].time - meanTime).toFixed(1)}s+ deficit) flagged around lap <span className="font-bold text-red-400 drop-shadow-[0_0_8px_currentColor]">{anomalies[anomalies.length > 1 ? Math.floor(anomalies.length / 2) : 0].lap}</span> indicating turbulent air or severe compound fatigue.
+            </li>
           )}
-       </div>
+        </ul>
+      </div>
 
-       <div className="flex-1 w-full relative z-10 mt-6 cursor-crosshair overflow-x-auto hide-scrollbar">
-         <div className="min-w-[800px] h-[300px] sm:h-[400px] md:h-full relative overflow-visible">
-           <svg className="w-full h-full overflow-visible" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none">
-             {[0, 0.5, 1].map(pct => (
-               <line key={`g-${pct}`} x1={paddingX} y1={paddingY + pct * (height - paddingY - paddingB)} x2={width - 40} y2={paddingY + pct * (height - paddingY - paddingB)} stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
-             ))}
-             
-             {/* AXIS LABELS */}
-             <text x={width/2} y={height - 20} fill="rgba(255,255,255,0.3)" textAnchor="middle" fontSize="12" letterSpacing="0.08em">LAP NUMBER PROGRESSION</text>
-             <text transform="rotate(-90)" x={-(height/2)} y={20} fill="rgba(255,255,255,0.3)" textAnchor="middle" fontSize="12" letterSpacing="0.08em">TIME ELAPSED (SECONDS)</text>
+      <div className="flex justify-between items-end mb-4 px-6 z-20">
+        <div>
+          <h3 className="label-sm mb-1 text-primary drop-shadow-[0_0_5px_currentColor]">PERFORMANCE TREND MATRIX</h3>
+          <p className="text-white/40 text-xs font-light">Race Lap Progression Traces (Seconds)</p>
+        </div>
+        {hoveredLap && (
+          <div className="text-right">
+            <span className="label-sm text-primary block">LAP {hoveredLap.lap}</span>
+            <span className="font-display text-4xl font-bold text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]">{hoveredLap.time.toFixed(3)}s</span>
+            <span className={`text-xs ml-3 ${hoveredLap.time > meanTime ? 'text-red-400' : 'text-primary'}`}>
+              {hoveredLap.time > meanTime ? `+${(hoveredLap.time - meanTime).toFixed(2)}s Slower` : `-${(meanTime - hoveredLap.time).toFixed(2)}s Faster`}
+            </span>
+          </div>
+        )}
+      </div>
 
-             <defs>
-               <linearGradient id="glowGradient" x1="0" y1="0" x2="0" y2="1">
-                 <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.3" />
-                 <stop offset="100%" stopColor="var(--primary)" stopOpacity="0" />
-               </linearGradient>
-             </defs>
-             <path d={fillPathD} fill="url(#glowGradient)" className="transition-all duration-700" />
-             <path d={pathD} fill="none" stroke="var(--primary)" strokeWidth="2" vectorEffect="non-scaling-stroke" className="drop-shadow-[0_0_10px_var(--primary)] transition-all duration-700" />
+      <div className="flex-1 w-full relative z-10 mt-6 cursor-crosshair overflow-x-auto hide-scrollbar">
+        <div className="min-w-[800px] h-[300px] sm:h-[400px] md:h-full relative overflow-visible">
+          <svg className="w-full h-full overflow-visible" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none"
+            onMouseMove={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const mouseX = e.clientX - rect.left;
+              if (dataPoints.length > 0) {
+                 const match = dataPoints.reduce((prev, curr) => 
+                   Math.abs(getX(curr.lap) - mouseX) < Math.abs(getX(prev.lap) - mouseX) ? curr : prev
+                 );
+                 if (Math.abs(getX(match.lap) - mouseX) < 30) setHoveredLap(match);
+              }
+            }}
+            onMouseLeave={() => setHoveredLap(null)}>
+            {[0, 0.5, 1].map(pct => (
+              <line key={`g-${pct}`} x1={paddingX} y1={paddingY + pct * (height - paddingY - paddingB)} x2={width - 40} y2={paddingY + pct * (height - paddingY - paddingB)} stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
+            ))}
 
-             {/* AVERAGE REFERENCE LINE */}
-             <line x1={paddingX} y1={getY(meanTime)} x2={width - 40} y2={getY(meanTime)} stroke="rgba(255,200,0,0.35)" strokeWidth="1" strokeDasharray="8 4" vectorEffect="non-scaling-stroke" />
-             <text x={width - 38} y={getY(meanTime) - 6} fill="rgba(255,200,0,0.5)" fontSize="9" textAnchor="end" letterSpacing="0.05em">AVG {meanTime.toFixed(1)}s</text>
+            {/* AXIS LABELS */}
+            <text x={width / 2} y={height - 20} fill="rgba(255,255,255,0.3)" textAnchor="middle" fontSize="12" letterSpacing="0.08em">LAP NUMBER PROGRESSION</text>
+            <text transform="rotate(-90)" x={-(height / 2)} y={20} fill="rgba(255,255,255,0.3)" textAnchor="middle" fontSize="12" letterSpacing="0.08em">TIME ELAPSED (SECONDS)</text>
 
-             {/* FASTEST LAP MARKER */}
-             {(() => { const f = dataPoints.reduce((a, b) => a.time < b.time ? a : b); return (
-               <g className="pointer-events-none">
-                 <polygon points={`${getX(f.lap)},${getY(f.time)-8} ${getX(f.lap)+6},${getY(f.time)} ${getX(f.lap)},${getY(f.time)+8} ${getX(f.lap)-6},${getY(f.time)}`} fill="#00ff88" className="drop-shadow-[0_0_8px_#00ff88]" />
-                 <text x={getX(f.lap)} y={getY(f.time)-14} fill="#00ff88" fontSize="9" textAnchor="middle" fontWeight="bold" letterSpacing="0.05em">FASTEST</text>
-               </g>
-             ); })()}
+            <defs>
+              <linearGradient id="glowGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.3" />
+                <stop offset="100%" stopColor="var(--primary)" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <path d={fillPathD} fill="url(#glowGradient)" className="transition-all duration-700" />
+            <path d={pathD} fill="none" stroke="var(--primary)" strokeWidth="2" vectorEffect="non-scaling-stroke" className="drop-shadow-[0_0_10px_var(--primary)] transition-all duration-700" />
 
-             {/* SLOWEST LAP MARKER */}
-             {(() => { const s = dataPoints.reduce((a, b) => a.time > b.time ? a : b); return (
-               <g className="pointer-events-none">
-                 <polygon points={`${getX(s.lap)},${getY(s.time)-8} ${getX(s.lap)+6},${getY(s.time)} ${getX(s.lap)},${getY(s.time)+8} ${getX(s.lap)-6},${getY(s.time)}`} fill="#ff4444" className="drop-shadow-[0_0_8px_#ff4444]" />
-                 <text x={getX(s.lap)} y={getY(s.time)+22} fill="#ff4444" fontSize="9" textAnchor="middle" fontWeight="bold" letterSpacing="0.05em">SLOWEST</text>
-               </g>
-             ); })()}
+            {/* AVERAGE REFERENCE LINE */}
+            <line x1={paddingX} y1={getY(meanTime)} x2={width - 40} y2={getY(meanTime)} stroke="rgba(255,200,0,0.35)" strokeWidth="1" strokeDasharray="8 4" vectorEffect="non-scaling-stroke" />
+            <text x={width - 38} y={getY(meanTime) - 6} fill="rgba(255,200,0,0.5)" fontSize="9" textAnchor="end" letterSpacing="0.05em">AVG {meanTime.toFixed(1)}s</text>
 
-             {/* Outlier Dots */}
-             {anomalies.map((a, i) => (
-                <circle key={`anom-${i}`} cx={getX(a.lap)} cy={getY(a.time)} r="6" fill="#ff0000" className="shadow-[0_0_15px_#ff0000] drop-shadow-[0_0_10px_#ff0000]" />
-             ))}
-
-             {dataPoints.map((d, i) => (
-                <circle key={i} cx={getX(d.lap)} cy={getY(d.time)} r="20" fill="transparent" className="outline-none" onMouseEnter={() => setHoveredLap(d)} onMouseLeave={() => setHoveredLap(null)} />
-             ))}
-             
-             {hoveredLap && (
+            {/* FASTEST LAP MARKER */}
+            {(() => {
+              const f = dataPoints.reduce((a, b) => a.time < b.time ? a : b); return (
                 <g className="pointer-events-none">
-                   <line x1={getX(hoveredLap.lap)} y1={getY(hoveredLap.time)} x2={getX(hoveredLap.lap)} y2={height-paddingB} stroke="var(--primary)" strokeWidth="1" strokeDasharray="4 4" />
-                   <circle cx={getX(hoveredLap.lap)} cy={getY(hoveredLap.time)} r="5" fill="var(--primary)" className="shadow-[0_0_15px_var(--primary)] text-primary drop-shadow-[0_0_10px_currentColor]" />
+                  <polygon points={`${getX(f.lap)},${getY(f.time) - 8} ${getX(f.lap) + 6},${getY(f.time)} ${getX(f.lap)},${getY(f.time) + 8} ${getX(f.lap) - 6},${getY(f.time)}`} fill="#00ff88" className="drop-shadow-[0_0_8px_#00ff88]" />
+                  <text x={getX(f.lap)} y={getY(f.time) - 14} fill="#00ff88" fontSize="9" textAnchor="middle" fontWeight="bold" letterSpacing="0.05em">FASTEST</text>
                 </g>
-             )}
+              );
+            })()}
+
+            {/* SLOWEST LAP MARKER */}
+            {(() => {
+              const s = dataPoints.reduce((a, b) => a.time > b.time ? a : b); return (
+                <g className="pointer-events-none">
+                  <polygon points={`${getX(s.lap)},${getY(s.time) - 8} ${getX(s.lap) + 6},${getY(s.time)} ${getX(s.lap)},${getY(s.time) + 8} ${getX(s.lap) - 6},${getY(s.time)}`} fill="#ff4444" className="drop-shadow-[0_0_8px_#ff4444]" />
+                  <text x={getX(s.lap)} y={getY(s.time) + 22} fill="#ff4444" fontSize="9" textAnchor="middle" fontWeight="bold" letterSpacing="0.05em">SLOWEST</text>
+                </g>
+              );
+            })()}
+
+            {/* Outlier Dots */}
+            {anomalies.map((a, i) => (
+              <circle key={`anom-${i}`} cx={getX(a.lap)} cy={getY(a.time)} r="6" fill="#ff0000" className="shadow-[0_0_15px_#ff0000] drop-shadow-[0_0_10px_#ff0000]" />
+            ))}
+
+            {dataPoints.map((d, i) => (
+              <circle key={i} cx={getX(d.lap)} cy={getY(d.time)} r="20" fill="transparent" className="outline-none" onMouseEnter={() => setHoveredLap(d)} onMouseLeave={() => setHoveredLap(null)} />
+            ))}
+
+            {hoveredLap && (
+              <g className="pointer-events-none">
+                <line x1={getX(hoveredLap.lap)} y1={getY(hoveredLap.time)} x2={getX(hoveredLap.lap)} y2={height - paddingB} stroke="var(--primary)" strokeWidth="1" strokeDasharray="4 4" />
+                <circle cx={getX(hoveredLap.lap)} cy={getY(hoveredLap.time)} r="5" fill="var(--primary)" className="shadow-[0_0_15px_var(--primary)] text-primary drop-shadow-[0_0_10px_currentColor]" />
+              </g>
+            )}
           </svg>
-         </div>
-       </div>
+        </div>
+      </div>
     </Card>
   );
 }
@@ -296,7 +311,7 @@ function TyresTab({ driverCode }: { driverCode: string }) {
   const [data, setData] = useState<any>(null);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/ai-strategy?year=${year}&gp=${gp}&driver=${driverCode}`).then(r=>r.json()).then(d=>setData(d)).catch(console.error);
+    fetch(`${BASE_URL}/ai-strategy?year=${year}&gp=${gp}&driver=${driverCode}`).then(r => r.json()).then(d => setData(d)).catch(console.error);
   }, [driverCode, year, gp]);
 
   if (!data) return <Card className="min-h-[400px] flex items-center justify-center border-none shadow-[0_10px_30px_rgba(0,0,0,0.5)] bg-white/[0.02]"><div className="w-8 h-8 rounded-full border-t-2 border-primary animate-spin" /></Card>;
@@ -306,34 +321,34 @@ function TyresTab({ driverCode }: { driverCode: string }) {
     <Card className="min-h-[400px] relative border-none shadow-[0_10px_30px_rgba(0,0,0,0.5)] bg-white/[0.02]">
       <h3 className="label-sm mb-6 text-white/50">Compound Base Extrapolation</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-         {compounds.map(([compound, lapsUsed]) => {
-           const type = (compound as string).toUpperCase();
-           let color = "bg-white/40";
-           if (type === "SOFT") color = "bg-[#FF0000]";
-           if (type === "MEDIUM") color = "bg-[#FFFF00]";
-           if (type === "HARD") color = "bg-[#FFFFFF]";
-           if (type === "INTERMEDIATE") color = "bg-[#00FF00]";
-           if (type === "WET") color = "bg-[#0000FF]";
+        {compounds.map(([compound, lapsUsed]) => {
+          const type = (compound as string).toUpperCase();
+          let color = "bg-white/40";
+          if (type === "SOFT") color = "bg-[#FF0000]";
+          if (type === "MEDIUM") color = "bg-[#FFFF00]";
+          if (type === "HARD") color = "bg-[#FFFFFF]";
+          if (type === "INTERMEDIATE") color = "bg-[#00FF00]";
+          if (type === "WET") color = "bg-[#0000FF]";
 
-           return (
-             <div key={compound} className="flex items-center gap-6 p-6 border border-white/[0.02] rounded-xl bg-black/20 backdrop-blur-3xl group transition-all hover:bg-white/[0.04]">
-                <div className={`w-16 h-16 rounded-full border-4 border-black ${color} flex items-center justify-center font-bold text-black drop-shadow-[0_0_15px_currentColor]`}>
-                  {type[0]}
-                </div>
-                <div>
-                   <p className="label-sm text-white/50 mb-1">{type}</p>
-                   <p className="font-display text-4xl text-white font-bold drop-shadow-md">{lapsUsed as number} <span className="text-xl text-white/30">LAPS</span></p>
-                </div>
-             </div>
-           );
-         })}
+          return (
+            <div key={compound} className="flex items-center gap-6 p-6 border border-white/[0.02] rounded-xl bg-black/20 backdrop-blur-3xl group transition-all hover:bg-white/[0.04]">
+              <div className={`w-16 h-16 rounded-full border-4 border-black ${color} flex items-center justify-center font-bold text-black drop-shadow-[0_0_15px_currentColor]`}>
+                {type[0]}
+              </div>
+              <div>
+                <p className="label-sm text-white/50 mb-1">{type}</p>
+                <p className="font-display text-4xl text-white font-bold drop-shadow-md">{lapsUsed as number} <span className="text-xl text-white/30">LAPS</span></p>
+              </div>
+            </div>
+          );
+        })}
       </div>
       <div className="mt-12 p-6 border-t border-white/[0.02] relative">
-          <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary" />
-          <p className="text-sm text-white/90 font-light ml-2">
-             <span className="text-primary font-bold mr-2 drop-shadow-[0_0_5px_currentColor]">TACTICAL LOG:</span> 
-             {data.insight}
-          </p>
+        <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary" />
+        <p className="text-sm text-white/90 font-light ml-2">
+          <span className="text-primary font-bold mr-2 drop-shadow-[0_0_5px_currentColor]">TACTICAL LOG:</span>
+          {data.insight}
+        </p>
       </div>
     </Card>
   );
@@ -347,29 +362,29 @@ function SectorTab({ driverCode }: { driverCode: string }) {
   const [data, setData] = useState<any>(null);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/sector-analysis?year=${year}&gp=${gp}&driver=${driverCode}`).then(r=>r.json()).then(d=>setData(d)).catch(console.error);
+    fetch(`${BASE_URL}/sector-analysis?year=${year}&gp=${gp}&driver=${driverCode}`).then(r => r.json()).then(d => setData(d)).catch(console.error);
   }, [driverCode, year, gp]);
 
   if (!data) return <Card className="min-h-[400px] flex items-center justify-center border-none shadow-[0_10px_30px_rgba(0,0,0,0.5)] bg-white/[0.02]"><div className="w-8 h-8 rounded-full border-t-2 border-primary animate-spin" /></Card>;
 
-  const p1: {lap: number, time: number}[] = [];
-  const p2: {lap: number, time: number}[] = [];
-  const p3: {lap: number, time: number}[] = [];
+  const p1: { lap: number, time: number }[] = [];
+  const p2: { lap: number, time: number }[] = [];
+  const p3: { lap: number, time: number }[] = [];
 
   data.lap_numbers?.forEach((lap: number, idx: number) => {
-     const s1 = data.sector1_sec?.[idx] ?? parseLapTime(data.sector1?.[idx]);
-     const s2 = data.sector2_sec?.[idx] ?? parseLapTime(data.sector2?.[idx]);
-     const s3 = data.sector3_sec?.[idx] ?? parseLapTime(data.sector3?.[idx]);
-     if (s1 && s1 > 0 && s1 < 60) p1.push({ lap, time: s1 });
-     if (s2 && s2 > 0 && s2 < 60) p2.push({ lap, time: s2 });
-     if (s3 && s3 > 0 && s3 < 60) p3.push({ lap, time: s3 });
+    const s1 = data.sector1_sec?.[idx] ?? parseLapTime(data.sector1?.[idx]);
+    const s2 = data.sector2_sec?.[idx] ?? parseLapTime(data.sector2?.[idx]);
+    const s3 = data.sector3_sec?.[idx] ?? parseLapTime(data.sector3?.[idx]);
+    if (s1 && s1 > 0 && s1 < 60) p1.push({ lap, time: s1 });
+    if (s2 && s2 > 0 && s2 < 60) p2.push({ lap, time: s2 });
+    if (s3 && s3 > 0 && s3 < 60) p3.push({ lap, time: s3 });
   });
 
   const getPoints = () => [...p1, ...p2, ...p3];
-  const minLap = Math.min(...getPoints().map(d=>d.lap)) || 0;
-  const maxLap = Math.max(...getPoints().map(d=>d.lap)) || 1;
-  const minTime = Math.min(...getPoints().map(d=>d.time)) || 0;
-  const maxTime = Math.max(...getPoints().map(d=>d.time)) || 1;
+  const minLap = Math.min(...getPoints().map(d => d.lap)) || 0;
+  const maxLap = Math.max(...getPoints().map(d => d.lap)) || 1;
+  const minTime = Math.min(...getPoints().map(d => d.time)) || 0;
+  const maxTime = Math.max(...getPoints().map(d => d.time)) || 1;
 
   const getSD = (arr: any[]) => {
     if (arr.length === 0) return 0;
@@ -379,12 +394,12 @@ function SectorTab({ driverCode }: { driverCode: string }) {
   };
 
   const sdArray = [
-     { name: "Sector 1", val: getSD(p1), color: "text-[#ff9100]", fill: "#ff9100" },
-     { name: "Sector 2", val: getSD(p2), color: "text-[#00D2BE]", fill: "#00D2BE" },
-     { name: "Sector 3", val: getSD(p3), color: "text-[#ffffff]", fill: "#ffffff" }
+    { name: "Sector 1", val: getSD(p1), color: "text-[#ff9100]", fill: "#ff9100" },
+    { name: "Sector 2", val: getSD(p2), color: "text-[#00D2BE]", fill: "#00D2BE" },
+    { name: "Sector 3", val: getSD(p3), color: "text-[#ffffff]", fill: "#ffffff" }
   ];
-  
-  sdArray.sort((a,b) => b.val - a.val);
+
+  sdArray.sort((a, b) => b.val - a.val);
   const worstSector = sdArray[0];
   const bestSector = sdArray[2];
 
@@ -392,49 +407,50 @@ function SectorTab({ driverCode }: { driverCode: string }) {
 
   return (
     <Card className="min-h-[500px] border-none shadow-[0_10px_30px_rgba(0,0,0,0.5)] bg-white/[0.02]" signalColor="bg-primary">
-       <div className="flex justify-between items-start mb-6">
-          <div>
-            <span className="label-sm text-primary mb-2 block drop-shadow-[0_0_5px_currentColor]">MICROMETRIC SECTORS</span>
-            <div className="flex gap-6 mt-4">
-               <div className="flex items-center gap-2 text-xs text-white/50"><div className="w-3 h-3 rounded-full bg-[#ff9100]" /> SECTOR 1</div>
-               <div className="flex items-center gap-2 text-xs text-white/50"><div className="w-3 h-3 rounded-full bg-[#00D2BE]" /> SECTOR 2</div>
-               <div className="flex items-center gap-2 text-xs text-white/50"><div className="w-3 h-3 rounded-full bg-[#ffffff]" /> SECTOR 3</div>
-            </div>
+      <div className="flex justify-between items-start mb-6">
+        <div>
+          <span className="label-sm text-primary mb-2 block drop-shadow-[0_0_5px_currentColor]">MICROMETRIC SECTORS</span>
+          <div className="flex gap-6 mt-4">
+            <div className="flex items-center gap-2 text-xs text-white/50"><div className="w-3 h-3 rounded-full bg-[#ff9100]" /> SECTOR 1</div>
+            <div className="flex items-center gap-2 text-xs text-white/50"><div className="w-3 h-3 rounded-full bg-[#00D2BE]" /> SECTOR 2</div>
+            <div className="flex items-center gap-2 text-xs text-white/50"><div className="w-3 h-3 rounded-full bg-[#ffffff]" /> SECTOR 3</div>
           </div>
-       </div>
+        </div>
+      </div>
 
-       <div className="w-full bg-black/40 border border-white/[0.05] rounded-xl p-6 mb-8 backdrop-blur-xl relative overflow-hidden group">
-          <div className={`absolute left-0 top-0 bottom-0 w-1 bg-[${worstSector.fill}] shadow-[0_0_15px_${worstSector.fill}] transition-all`} />
-          <h4 className="label-sm text-white/50 mb-4 flex items-center gap-2">
-             <svg className={`w-4 h-4 ${worstSector.color}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-             AI INSIGHT SUMMARY
-          </h4>
-          <ul className="space-y-3 font-light text-white/80 text-sm md:text-base leading-relaxed">
-             <li>
-                <span className={`${worstSector.color} font-bold mr-2 drop-shadow-[0_0_5px_currentColor]`}>Observation:</span> 
-                Inconsistency and micro-hesitations peak in <span className={`font-bold drop-shadow-[0_0_8px_currentColor] ${worstSector.color}`}>{worstSector.name}</span>, measuring an unpredictable <span className="font-mono text-white bg-white/10 px-2 py-0.5 rounded">±{worstSector.val.toFixed(2)}s</span> volatility window across the race profile.
-             </li>
-             <li>
-                <span className={`${worstSector.color} font-bold mr-2 drop-shadow-[0_0_5px_currentColor]`}>Strategy:</span> 
-                Pace extraction should intensely focus on stabilizing <span className={`font-bold ${worstSector.color}`}>{worstSector.name}</span> setups, leveraging the extreme rhythmic consistency already demonstrated natively throughout <span className={`font-bold ${bestSector.color}`}>{bestSector.name}</span>.
-             </li>
-          </ul>
-       </div>
+      <div className="w-full bg-black/40 border border-white/[0.05] rounded-xl p-6 mb-8 backdrop-blur-xl relative overflow-hidden group">
+        <div className={`absolute left-0 top-0 bottom-0 w-1 bg-[${worstSector.fill}] shadow-[0_0_15px_${worstSector.fill}] transition-all`} />
+        <h4 className="label-sm text-white/50 mb-4 flex items-center gap-2">
+          <svg className={`w-4 h-4 ${worstSector.color}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          AI INSIGHT SUMMARY
+        </h4>
+        <ul className="space-y-3 font-light text-white/80 text-sm md:text-base leading-relaxed">
+          <li>
+            <span className={`${worstSector.color} font-bold mr-2 drop-shadow-[0_0_5px_currentColor]`}>Observation:</span>
+            Inconsistency and micro-hesitations peak in <span className={`font-bold drop-shadow-[0_0_8px_currentColor] ${worstSector.color}`}>{worstSector.name}</span>, measuring an unpredictable <span className="font-mono text-white bg-white/10 px-2 py-0.5 rounded">±{worstSector.val.toFixed(2)}s</span> volatility window across the race profile.
+          </li>
+          <li>
+            <span className={`${worstSector.color} font-bold mr-2 drop-shadow-[0_0_5px_currentColor]`}>Strategy:</span>
+            Pace extraction should intensely focus on stabilizing <span className={`font-bold ${worstSector.color}`}>{worstSector.name}</span> setups, leveraging the extreme rhythmic consistency already demonstrated natively throughout <span className={`font-bold ${bestSector.color}`}>{bestSector.name}</span>.
+          </li>
+        </ul>
+      </div>
 
-       <div className="w-full overflow-x-auto hide-scrollbar mt-4 relative z-10">
-         <div className="min-w-[800px] h-[350px] relative">
-           <svg className="w-full h-full overflow-visible" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none">
-             {[0, 0.5, 1].map(pct => (
-               <line key={`g-${pct}`} x1={60} y1={40 + pct * (height - 100)} x2={width - 40} y2={40 + pct * (height - 100)} stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
-             ))}
-             <text x={width/2} y={height - 20} fill="rgba(255,255,255,0.3)" textAnchor="middle" fontSize="12" letterSpacing="0.08em">LAP NUMBER (PROGRESSION)</text>
-             <text transform="rotate(-90)" x={-(height/2)} y={20} fill="rgba(255,255,255,0.3)" textAnchor="middle" fontSize="12" letterSpacing="0.08em">INTERVAL (SECONDS)</text>
+      <div className="w-full overflow-x-auto hide-scrollbar mt-4 relative z-10">
+        <div className="min-w-[800px] h-[350px] relative">
+          <svg className="w-full h-full overflow-visible" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none">
+            {[0, 0.5, 1].map(pct => (
+              <line key={`g-${pct}`} x1={60} y1={40 + pct * (height - 100)} x2={width - 40} y2={40 + pct * (height - 100)} stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
+            ))}
+            <text x={width / 2} y={height - 20} fill="rgba(255,255,255,0.3)" textAnchor="middle" fontSize="12" letterSpacing="0.08em">LAP NUMBER (PROGRESSION)</text>
+            <text transform="rotate(-90)" x={-(height / 2)} y={20} fill="rgba(255,255,255,0.3)" textAnchor="middle" fontSize="12" letterSpacing="0.08em">INTERVAL (SECONDS)</text>
 
-             <path d={generateSmoothPath(p1, width, height, minLap, maxLap, minTime, maxTime)} fill="none" stroke="#ff9100" strokeWidth="2" vectorEffect="non-scaling-stroke" className="drop-shadow-[0_0_8px_#ff9100]" />
-             <path d={generateSmoothPath(p2, width, height, minLap, maxLap, minTime, maxTime)} fill="none" stroke="#00D2BE" strokeWidth="2" vectorEffect="non-scaling-stroke" className="drop-shadow-[0_0_8px_#00D2BE]" />
-             <path d={generateSmoothPath(p3, width, height, minLap, maxLap, minTime, maxTime)} fill="none" stroke="#ffffff" strokeWidth="2" vectorEffect="non-scaling-stroke" className="drop-shadow-[0_0_8px_#ffffff]" />
-         </svg>
-       </div>
+            <path d={generateSmoothPath(p1, width, height, minLap, maxLap, minTime, maxTime)} fill="none" stroke="#ff9100" strokeWidth="2" vectorEffect="non-scaling-stroke" className="drop-shadow-[0_0_8px_#ff9100]" />
+            <path d={generateSmoothPath(p2, width, height, minLap, maxLap, minTime, maxTime)} fill="none" stroke="#00D2BE" strokeWidth="2" vectorEffect="non-scaling-stroke" className="drop-shadow-[0_0_8px_#00D2BE]" />
+            <path d={generateSmoothPath(p3, width, height, minLap, maxLap, minTime, maxTime)} fill="none" stroke="#ffffff" strokeWidth="2" vectorEffect="non-scaling-stroke" className="drop-shadow-[0_0_8px_#ffffff]" />
+          </svg>
+        </div>
+      </div>
     </Card>
   );
 }
@@ -451,95 +467,95 @@ function CompareTab({ driverCode }: { driverCode: string }) {
   const RIVALS = ["VER", "PER", "HAM", "RUS", "LEC", "SAI", "NOR", "PIA", "ALO", "HUL", "MAG"].filter(r => r !== driverCode);
 
   useEffect(() => {
-     setLoading(true);
-     fetch(`${BASE_URL}/compare?year=${year}&gp=${gp}&d1=${driverCode}&d2=${targetRival}`)
-      .then(r=>r.json()).then(d=>setData(d)).catch(console.error).finally(()=>setLoading(false));
+    setLoading(true);
+    fetch(`${BASE_URL}/compare?year=${year}&gp=${gp}&d1=${driverCode}&d2=${targetRival}`)
+      .then(r => r.json()).then(d => setData(d)).catch(console.error).finally(() => setLoading(false));
   }, [driverCode, targetRival, year, gp]);
 
-  const p1: {lap: number, time: number}[] = [];
-  const p2: {lap: number, time: number}[] = [];
+  const p1: { lap: number, time: number }[] = [];
+  const p2: { lap: number, time: number }[] = [];
 
   if (data?.lap_numbers) {
-     data.lap_numbers.forEach((lap: number, idx: number) => {
-       const t1 = parseLapTime(data.driver1_times[idx]);
-       const t2 = parseLapTime(data.driver2_times[idx]);
-       if (t1 && t1 > 0 && t1 < 120) p1.push({ lap, time: t1 });
-       if (t2 && t2 > 0 && t2 < 120) p2.push({ lap, time: t2 });
-     });
+    data.lap_numbers.forEach((lap: number, idx: number) => {
+      const t1 = parseLapTime(data.driver1_times[idx]);
+      const t2 = parseLapTime(data.driver2_times[idx]);
+      if (t1 && t1 > 0 && t1 < 120) p1.push({ lap, time: t1 });
+      if (t2 && t2 > 0 && t2 < 120) p2.push({ lap, time: t2 });
+    });
   }
 
   const pts = [...p1, ...p2];
-  const minLap = Math.min(...pts.map(d=>d.lap)) || 0;
-  const maxLap = Math.max(...pts.map(d=>d.lap)) || 1;
-  const minTime = Math.min(...pts.map(d=>d.time)) || 0;
-  const maxTime = Math.max(...pts.map(d=>d.time)) || 1;
+  const minLap = Math.min(...pts.map(d => d.lap)) || 0;
+  const maxLap = Math.max(...pts.map(d => d.lap)) || 1;
+  const minTime = Math.min(...pts.map(d => d.time)) || 0;
+  const maxTime = Math.max(...pts.map(d => d.time)) || 1;
 
   let wins1 = 0, wins2 = 0;
-  for(let i=0; i<Math.min(p1.length, p2.length); i++) {
-     if (p1[i].time < p2[i].time) wins1++;
-     else wins2++;
+  for (let i = 0; i < Math.min(p1.length, p2.length); i++) {
+    if (p1[i].time < p2[i].time) wins1++;
+    else wins2++;
   }
 
   const width = 1000, height = 450;
 
   return (
     <Card className="min-h-[500px] border-none shadow-[0_10px_30px_rgba(0,0,0,0.5)] bg-white/[0.02]" signalColor="bg-primary">
-       <div className="w-full bg-black/40 border border-white/[0.05] rounded-xl p-6 mb-8 backdrop-blur-xl relative overflow-hidden group">
-          <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary group-hover:shadow-[0_0_15px_currentColor] transition-all" />
-          <h4 className="label-sm text-white/50 mb-4 flex items-center gap-2">
-             <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-             BATTLE SUMMARY
-          </h4>
-          <ul className="space-y-3 font-light text-white/80 text-sm md:text-base leading-relaxed">
-             {!loading && (
-               <li>
-                  <span className="text-primary font-bold mr-2 uppercase">Head-To-Head Result:</span> 
-                  Across directly measurable track distances, <span className="font-bold text-white drop-shadow-[0_0_8px_currentColor]">{driverCode}</span> outperformed <span className="font-bold text-white/50">{targetRival}</span> on <span className="font-mono text-white bg-white/10 px-2 py-0.5 rounded">{wins1}</span> active laps against the rival's {wins2} laps.
-               </li>
-             )}
-          </ul>
-       </div>
+      <div className="w-full bg-black/40 border border-white/[0.05] rounded-xl p-6 mb-8 backdrop-blur-xl relative overflow-hidden group">
+        <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary group-hover:shadow-[0_0_15px_currentColor] transition-all" />
+        <h4 className="label-sm text-white/50 mb-4 flex items-center gap-2">
+          <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          BATTLE SUMMARY
+        </h4>
+        <ul className="space-y-3 font-light text-white/80 text-sm md:text-base leading-relaxed">
+          {!loading && (
+            <li>
+              <span className="text-primary font-bold mr-2 uppercase">Head-To-Head Result:</span>
+              Across directly measurable track distances, <span className="font-bold text-white drop-shadow-[0_0_8px_currentColor]">{driverCode}</span> outperformed <span className="font-bold text-white/50">{targetRival}</span> on <span className="font-mono text-white bg-white/10 px-2 py-0.5 rounded">{wins1}</span> active laps against the rival's {wins2} laps.
+            </li>
+          )}
+        </ul>
+      </div>
 
-       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6 border-b border-white/[0.05] pb-8">
-          <div>
-            <h3 className="label-sm text-primary mb-2 drop-shadow-[0_0_5px_currentColor]">H2H COMPARISON TRACE</h3>
-            <div className="flex items-center gap-4 text-xs font-bold font-display">
-               <span className="text-primary text-xl drop-shadow-[0_0_8px_currentColor]">{driverCode}</span>
-               <span className="text-white/20">VS</span>
-               <span className="text-white drop-shadow-[0_0_8px_currentColor] text-xl">{targetRival}</span>
-            </div>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6 border-b border-white/[0.05] pb-8">
+        <div>
+          <h3 className="label-sm text-primary mb-2 drop-shadow-[0_0_5px_currentColor]">H2H COMPARISON TRACE</h3>
+          <div className="flex items-center gap-4 text-xs font-bold font-display">
+            <span className="text-primary text-xl drop-shadow-[0_0_8px_currentColor]">{driverCode}</span>
+            <span className="text-white/20">VS</span>
+            <span className="text-white drop-shadow-[0_0_8px_currentColor] text-xl">{targetRival}</span>
           </div>
-          <div className="flex gap-2 flex-wrap max-w-sm justify-end">
-             {RIVALS.map(r => (
-               <button 
-                 key={r}
-                 onClick={() => setTargetRival(r)}
-                 className={`px-4 py-2 text-xs font-bold rounded-full transition-all ${targetRival === r ? 'text-primary shadow-[0_0_15px_rgba(79,245,223,0.3)] bg-primary/10' : 'text-white/50 hover:bg-white/5'}`}
-               >
-                 {r}
-               </button>
-             ))}
+        </div>
+        <div className="flex gap-2 flex-wrap max-w-sm justify-end">
+          {RIVALS.map(r => (
+            <button
+              key={r}
+              onClick={() => setTargetRival(r)}
+              className={`px-4 py-2 text-xs font-bold rounded-full transition-all ${targetRival === r ? 'text-primary shadow-[0_0_15px_rgba(79,245,223,0.3)] bg-primary/10' : 'text-white/50 hover:bg-white/5'}`}
+            >
+              {r}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {loading ? (
+        <div className="w-full h-[300px] flex items-center justify-center"><div className="w-8 h-8 rounded-full border-t-2 border-primary animate-spin" /></div>
+      ) : (
+        <div className="w-full overflow-x-auto hide-scrollbar mt-8 relative z-10">
+          <div className="min-w-[800px] h-[350px] relative">
+            <svg className="w-full h-full overflow-visible" viewBox="0 0 1000 450" preserveAspectRatio="none">
+              {[0, 0.5, 1].map(pct => (
+                <line key={`g-${pct}`} x1={60} y1={40 + pct * (height - 100)} x2={width - 40} y2={40 + pct * (height - 100)} stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
+              ))}
+              <text x={width / 2} y={height - 20} fill="rgba(255,255,255,0.3)" textAnchor="middle" fontSize="12" letterSpacing="0.08em">DIFFERENTIAL LAP NUMBER</text>
+              <text transform="rotate(-90)" x={-(height / 2)} y={20} fill="rgba(255,255,255,0.3)" textAnchor="middle" fontSize="12" letterSpacing="0.08em">BASE TIME (SECONDS)</text>
+
+              <path d={generateSmoothPath(p1, width, height, minLap, maxLap, minTime, maxTime)} fill="none" stroke="var(--primary)" strokeWidth="3" vectorEffect="non-scaling-stroke" className="drop-shadow-[0_0_10px_var(--primary)]" />
+              <path d={generateSmoothPath(p2, width, height, minLap, maxLap, minTime, maxTime)} fill="none" stroke="#FFFFFF" strokeWidth="2" vectorEffect="non-scaling-stroke" strokeDasharray="6 6" className="drop-shadow-[0_0_8px_#ffffff] opacity-70" />
+            </svg>
           </div>
-       </div>
-
-       {loading ? (
-         <div className="w-full h-[300px] flex items-center justify-center"><div className="w-8 h-8 rounded-full border-t-2 border-primary animate-spin" /></div>
-       ) : (
-         <div className="w-full overflow-x-auto hide-scrollbar mt-8 relative z-10">
-           <div className="min-w-[800px] h-[350px] relative">
-             <svg className="w-full h-full overflow-visible" viewBox="0 0 1000 450" preserveAspectRatio="none">
-               {[0, 0.5, 1].map(pct => (
-                 <line key={`g-${pct}`} x1={60} y1={40 + pct * (height - 100)} x2={width - 40} y2={40 + pct * (height - 100)} stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
-               ))}
-               <text x={width/2} y={height - 20} fill="rgba(255,255,255,0.3)" textAnchor="middle" fontSize="12" letterSpacing="0.08em">DIFFERENTIAL LAP NUMBER</text>
-               <text transform="rotate(-90)" x={-(height/2)} y={20} fill="rgba(255,255,255,0.3)" textAnchor="middle" fontSize="12" letterSpacing="0.08em">BASE TIME (SECONDS)</text>
-
-               <path d={generateSmoothPath(p1, width, height, minLap, maxLap, minTime, maxTime)} fill="none" stroke="var(--primary)" strokeWidth="3" vectorEffect="non-scaling-stroke" className="drop-shadow-[0_0_10px_var(--primary)]" />
-               <path d={generateSmoothPath(p2, width, height, minLap, maxLap, minTime, maxTime)} fill="none" stroke="#FFFFFF" strokeWidth="2" vectorEffect="non-scaling-stroke" strokeDasharray="6 6" className="drop-shadow-[0_0_8px_#ffffff] opacity-70" />
-             </svg>
-           </div>
-         </div>
-       )}
+        </div>
+      )}
     </Card>
   );
 }
@@ -632,48 +648,48 @@ function LapTableTab({ driverCode }: { driverCode: string }) {
       <Card className="border-none shadow-[0_10px_30px_rgba(0,0,0,0.5)] bg-white/[0.02] overflow-x-auto hide-scrollbar p-0">
         <div className="w-full min-w-[750px] p-6">
           <table className="w-full text-left text-sm">
-          <thead>
-            <tr className="border-b border-white/[0.05]">
-              {COLS.map(c => (
-                <th key={c.key} onClick={() => c.key !== 'compound' && toggleSort(c.key)}
-                  className={`px-4 py-4 label-sm text-white/40 cursor-pointer hover:text-white/70 transition-colors select-none ${c.w} ${sortCol === c.key ? 'text-primary' : ''}`}>
-                  {c.label} {sortCol === c.key ? (sortDir === 'asc' ? '↑' : '↓') : ''}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {sorted.map((lap: any) => {
-              const isBest = lap.lap_time_sec === bestTime;
-              const isWorst = lap.lap_time_sec === worstTime;
-              const delta = lap.lap_time_sec != null && bestTime ? (lap.lap_time_sec - bestTime) : null;
+            <thead>
+              <tr className="border-b border-white/[0.05]">
+                {COLS.map(c => (
+                  <th key={c.key} onClick={() => c.key !== 'compound' && toggleSort(c.key)}
+                    className={`px-4 py-4 label-sm text-white/40 cursor-pointer hover:text-white/70 transition-colors select-none ${c.w} ${sortCol === c.key ? 'text-primary' : ''}`}>
+                    {c.label} {sortCol === c.key ? (sortDir === 'asc' ? '↑' : '↓') : ''}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {sorted.map((lap: any) => {
+                const isBest = lap.lap_time_sec === bestTime;
+                const isWorst = lap.lap_time_sec === worstTime;
+                const delta = lap.lap_time_sec != null && bestTime ? (lap.lap_time_sec - bestTime) : null;
 
-              return (
-                <tr key={lap.lap}
-                  className={`border-b border-white/[0.02] transition-colors hover:bg-white/[0.03] ${isBest ? 'bg-primary/5' : isWorst ? 'bg-red-500/5' : ''}`}>
-                  <td className="px-4 py-3 font-display font-bold text-white/80">{lap.lap}</td>
-                  <td className={`px-4 py-3 font-mono ${isBest ? 'text-primary font-bold drop-shadow-[0_0_8px_currentColor]' : isWorst ? 'text-red-400 font-bold' : 'text-white/70'}`}>
-                    {lap.lap_time_sec != null ? `${lap.lap_time_sec.toFixed(3)}s` : '—'}
-                  </td>
-                  <td className={`px-4 py-3 font-mono ${sectorColor(lap.sector1_sec, sectorMins.s1, sectorMaxs.s1)}`}>
-                    {lap.sector1_sec != null ? `${lap.sector1_sec.toFixed(3)}` : '—'}
-                  </td>
-                  <td className={`px-4 py-3 font-mono ${sectorColor(lap.sector2_sec, sectorMins.s2, sectorMaxs.s2)}`}>
-                    {lap.sector2_sec != null ? `${lap.sector2_sec.toFixed(3)}` : '—'}
-                  </td>
-                  <td className={`px-4 py-3 font-mono ${sectorColor(lap.sector3_sec, sectorMins.s3, sectorMaxs.s3)}`}>
-                    {lap.sector3_sec != null ? `${lap.sector3_sec.toFixed(3)}` : '—'}
-                  </td>
-                  <td className="px-4 py-3">
-                    <TyreBadge compound={lap.compound} />
-                  </td>
-                  <td className={`px-4 py-3 font-mono text-xs ${delta != null && delta < 0.5 ? 'text-green-400' : delta != null && delta > 3 ? 'text-red-400' : 'text-white/50'}`}>
-                    {delta != null ? `+${delta.toFixed(3)}s` : '—'}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
+                return (
+                  <tr key={lap.lap}
+                    className={`border-b border-white/[0.02] transition-colors hover:bg-white/[0.03] ${isBest ? 'bg-primary/5' : isWorst ? 'bg-red-500/5' : ''}`}>
+                    <td className="px-4 py-3 font-display font-bold text-white/80">{lap.lap}</td>
+                    <td className={`px-4 py-3 font-mono ${isBest ? 'text-primary font-bold drop-shadow-[0_0_8px_currentColor]' : isWorst ? 'text-red-400 font-bold' : 'text-white/70'}`}>
+                      {lap.lap_time_sec != null ? `${lap.lap_time_sec.toFixed(3)}s` : '—'}
+                    </td>
+                    <td className={`px-4 py-3 font-mono ${sectorColor(lap.sector1_sec, sectorMins.s1, sectorMaxs.s1)}`}>
+                      {lap.sector1_sec != null ? `${lap.sector1_sec.toFixed(3)}` : '—'}
+                    </td>
+                    <td className={`px-4 py-3 font-mono ${sectorColor(lap.sector2_sec, sectorMins.s2, sectorMaxs.s2)}`}>
+                      {lap.sector2_sec != null ? `${lap.sector2_sec.toFixed(3)}` : '—'}
+                    </td>
+                    <td className={`px-4 py-3 font-mono ${sectorColor(lap.sector3_sec, sectorMins.s3, sectorMaxs.s3)}`}>
+                      {lap.sector3_sec != null ? `${lap.sector3_sec.toFixed(3)}` : '—'}
+                    </td>
+                    <td className="px-4 py-3">
+                      <TyreBadge compound={lap.compound} />
+                    </td>
+                    <td className={`px-4 py-3 font-mono text-xs ${delta != null && delta < 0.5 ? 'text-green-400' : delta != null && delta > 3 ? 'text-red-400' : 'text-white/50'}`}>
+                      {delta != null ? `+${delta.toFixed(3)}s` : '—'}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
           </table>
         </div>
       </Card>
@@ -777,55 +793,55 @@ function ComparisonTableTab({ driverCode }: { driverCode: string }) {
         <Card className="border-none shadow-[0_10px_30px_rgba(0,0,0,0.5)] bg-white/[0.02] overflow-x-auto hide-scrollbar p-0">
           <div className="w-full min-w-[700px] p-6">
             <table className="w-full text-left text-sm">
-            <thead>
-              <tr className="border-b border-white/[0.05]">
-                <th className="px-4 py-4 label-sm text-white/40 w-14">LAP</th>
-                <th className="px-4 py-4 label-sm text-primary w-28">{driverCode}</th>
-                <th className="px-4 py-4 label-sm text-white/60 w-28">{rival}</th>
-                <th className="px-4 py-4 label-sm text-white/40 w-24">DELTA</th>
-                <th className="px-4 py-4 label-sm text-white/40 w-16">S1 Δ</th>
-                <th className="px-4 py-4 label-sm text-white/40 w-16">S2 Δ</th>
-                <th className="px-4 py-4 label-sm text-white/40 w-16">S3 Δ</th>
-                <th className="px-4 py-4 label-sm text-white/40 w-20">TYRES</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((r: any) => {
-                const d1Faster = r.delta != null && r.delta < 0;
-                const s1d = r.d1_sector1_sec != null && r.d2_sector1_sec != null ? r.d1_sector1_sec - r.d2_sector1_sec : null;
-                const s2d = r.d1_sector2_sec != null && r.d2_sector2_sec != null ? r.d1_sector2_sec - r.d2_sector2_sec : null;
-                const s3d = r.d1_sector3_sec != null && r.d2_sector3_sec != null ? r.d1_sector3_sec - r.d2_sector3_sec : null;
+              <thead>
+                <tr className="border-b border-white/[0.05]">
+                  <th className="px-4 py-4 label-sm text-white/40 w-14">LAP</th>
+                  <th className="px-4 py-4 label-sm text-primary w-28">{driverCode}</th>
+                  <th className="px-4 py-4 label-sm text-white/60 w-28">{rival}</th>
+                  <th className="px-4 py-4 label-sm text-white/40 w-24">DELTA</th>
+                  <th className="px-4 py-4 label-sm text-white/40 w-16">S1 Δ</th>
+                  <th className="px-4 py-4 label-sm text-white/40 w-16">S2 Δ</th>
+                  <th className="px-4 py-4 label-sm text-white/40 w-16">S3 Δ</th>
+                  <th className="px-4 py-4 label-sm text-white/40 w-20">TYRES</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map((r: any) => {
+                  const d1Faster = r.delta != null && r.delta < 0;
+                  const s1d = r.d1_sector1_sec != null && r.d2_sector1_sec != null ? r.d1_sector1_sec - r.d2_sector1_sec : null;
+                  const s2d = r.d1_sector2_sec != null && r.d2_sector2_sec != null ? r.d1_sector2_sec - r.d2_sector2_sec : null;
+                  const s3d = r.d1_sector3_sec != null && r.d2_sector3_sec != null ? r.d1_sector3_sec - r.d2_sector3_sec : null;
 
-                return (
-                  <tr key={r.lap} className={`border-b border-white/[0.02] transition-colors hover:bg-white/[0.03] ${d1Faster ? 'bg-primary/[0.02]' : ''}`}>
-                    <td className="px-4 py-3 font-display font-bold text-white/80">{r.lap}</td>
-                    <td className={`px-4 py-3 font-mono ${d1Faster ? 'text-primary font-bold' : 'text-white/70'}`}>
-                      {r.d1_lap_time_sec != null ? `${r.d1_lap_time_sec.toFixed(3)}s` : '—'}
-                    </td>
-                    <td className={`px-4 py-3 font-mono ${!d1Faster && r.delta != null ? 'text-white font-bold' : 'text-white/70'}`}>
-                      {r.d2_lap_time_sec != null ? `${r.d2_lap_time_sec.toFixed(3)}s` : '—'}
-                    </td>
-                    <td className={`px-4 py-3 font-mono font-bold text-xs ${r.delta != null ? (r.delta < 0 ? 'text-primary' : 'text-red-400') : 'text-white/30'}`}>
-                      {r.delta != null ? `${r.delta > 0 ? '+' : ''}${r.delta.toFixed(3)}s` : '—'}
-                    </td>
-                    <td className={`px-4 py-3 font-mono text-xs ${s1d != null ? (s1d < 0 ? 'text-green-400' : 'text-red-400') : 'text-white/20'}`}>
-                      {s1d != null ? `${s1d > 0 ? '+' : ''}${s1d.toFixed(2)}` : '—'}
-                    </td>
-                    <td className={`px-4 py-3 font-mono text-xs ${s2d != null ? (s2d < 0 ? 'text-green-400' : 'text-red-400') : 'text-white/20'}`}>
-                      {s2d != null ? `${s2d > 0 ? '+' : ''}${s2d.toFixed(2)}` : '—'}
-                    </td>
-                    <td className={`px-4 py-3 font-mono text-xs ${s3d != null ? (s3d < 0 ? 'text-green-400' : 'text-red-400') : 'text-white/20'}`}>
-                      {s3d != null ? `${s3d > 0 ? '+' : ''}${s3d.toFixed(2)}` : '—'}
-                    </td>
-                    <td className="px-4 py-3 flex gap-1">
-                      <TyreBadge compound={r.d1_compound} />
-                      <span className="text-white/20 text-[10px]">vs</span>
-                      <TyreBadge compound={r.d2_compound} />
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
+                  return (
+                    <tr key={r.lap} className={`border-b border-white/[0.02] transition-colors hover:bg-white/[0.03] ${d1Faster ? 'bg-primary/[0.02]' : ''}`}>
+                      <td className="px-4 py-3 font-display font-bold text-white/80">{r.lap}</td>
+                      <td className={`px-4 py-3 font-mono ${d1Faster ? 'text-primary font-bold' : 'text-white/70'}`}>
+                        {r.d1_lap_time_sec != null ? `${r.d1_lap_time_sec.toFixed(3)}s` : '—'}
+                      </td>
+                      <td className={`px-4 py-3 font-mono ${!d1Faster && r.delta != null ? 'text-white font-bold' : 'text-white/70'}`}>
+                        {r.d2_lap_time_sec != null ? `${r.d2_lap_time_sec.toFixed(3)}s` : '—'}
+                      </td>
+                      <td className={`px-4 py-3 font-mono font-bold text-xs ${r.delta != null ? (r.delta < 0 ? 'text-primary' : 'text-red-400') : 'text-white/30'}`}>
+                        {r.delta != null ? `${r.delta > 0 ? '+' : ''}${r.delta.toFixed(3)}s` : '—'}
+                      </td>
+                      <td className={`px-4 py-3 font-mono text-xs ${s1d != null ? (s1d < 0 ? 'text-green-400' : 'text-red-400') : 'text-white/20'}`}>
+                        {s1d != null ? `${s1d > 0 ? '+' : ''}${s1d.toFixed(2)}` : '—'}
+                      </td>
+                      <td className={`px-4 py-3 font-mono text-xs ${s2d != null ? (s2d < 0 ? 'text-green-400' : 'text-red-400') : 'text-white/20'}`}>
+                        {s2d != null ? `${s2d > 0 ? '+' : ''}${s2d.toFixed(2)}` : '—'}
+                      </td>
+                      <td className={`px-4 py-3 font-mono text-xs ${s3d != null ? (s3d < 0 ? 'text-green-400' : 'text-red-400') : 'text-white/20'}`}>
+                        {s3d != null ? `${s3d > 0 ? '+' : ''}${s3d.toFixed(2)}` : '—'}
+                      </td>
+                      <td className="px-4 py-3 flex gap-1">
+                        <TyreBadge compound={r.d1_compound} />
+                        <span className="text-white/20 text-[10px]">vs</span>
+                        <TyreBadge compound={r.d2_compound} />
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
             </table>
           </div>
         </Card>
@@ -847,8 +863,8 @@ function StatsTab({ driverCode }: { driverCode: string }) {
   useEffect(() => {
     setLoading(true);
     Promise.all([
-      fetch(`${BASE_URL}/stats?year=${year}&gp=${gp}&driver=${driverCode}`).then(r=>r.json()),
-      fetch(`${BASE_URL}/predict?year=${year}&gp=${gp}&driver=${driverCode}`).then(r=>r.json()),
+      fetch(`${BASE_URL}/stats?year=${year}&gp=${gp}&driver=${driverCode}`).then(r => r.json()),
+      fetch(`${BASE_URL}/predict?year=${year}&gp=${gp}&driver=${driverCode}`).then(r => r.json()),
     ]).then(([s, p]) => { setStats(s); setPrediction(p); })
       .catch(console.error).finally(() => setLoading(false));
   }, [driverCode, year, gp]);
@@ -981,8 +997,8 @@ function AITab({ driverCode }: { driverCode: string }) {
     setLoading(true);
     try {
       const [ai, deep] = await Promise.all([
-        fetch(`${BASE_URL}/ai-insight?year=${year}&gp=${gp}&driver=${driverCode}`).then(r=>r.json()),
-        fetch(`${BASE_URL}/sector-deep?year=${year}&gp=${gp}&driver=${driverCode}`).then(r=>r.json()),
+        fetch(`${BASE_URL}/ai-insight?year=${year}&gp=${gp}&driver=${driverCode}`).then(r => r.json()),
+        fetch(`${BASE_URL}/sector-deep?year=${year}&gp=${gp}&driver=${driverCode}`).then(r => r.json()),
       ]);
       setInsight(ai);
       setSectorDeep(deep);
@@ -995,98 +1011,98 @@ function AITab({ driverCode }: { driverCode: string }) {
 
   return (
     <Card className="relative overflow-hidden min-h-[400px] flex flex-col items-center justify-center border-none shadow-[0_10px_40px_rgba(0,0,0,0.5)] bg-white/[0.02]" signalColor="bg-primary">
-       <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-primary shadow-[0_0_15px_currentColor] animate-pulse" />
-       
-       {!insight && !loading && (
-          <div className="text-center z-10 flex flex-col items-center p-8">
-            <div className="w-16 h-16 rounded-full border border-primary/30 flex items-center justify-center mb-6 shadow-[inset_0_0_30px_rgba(79,245,223,0.1)]">
-               <svg className="w-6 h-6 text-primary drop-shadow-[0_0_8px_currentColor]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-               </svg>
+      <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-primary shadow-[0_0_15px_currentColor] animate-pulse" />
+
+      {!insight && !loading && (
+        <div className="text-center z-10 flex flex-col items-center p-8">
+          <div className="w-16 h-16 rounded-full border border-primary/30 flex items-center justify-center mb-6 shadow-[inset_0_0_30px_rgba(79,245,223,0.1)]">
+            <svg className="w-6 h-6 text-primary drop-shadow-[0_0_8px_currentColor]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h3 className="font-display text-4xl font-bold text-white mb-2 tracking-tighter drop-shadow-md">AI VECTOR ENGINE</h3>
+          <p className="text-white/40 font-light mb-8 max-w-sm">
+            Generate comprehensive insights combining race analysis, sector breakdown, and performance predictions.
+          </p>
+          <button onClick={fetchInsight} className="text-xs uppercase tracking-widest font-bold text-surface-low bg-primary px-8 py-4 rounded-full shadow-[0_0_20px_var(--primary)] hover:brightness-125 transition-all outline-none border-none">
+            GENERATE INSIGHT
+          </button>
+        </div>
+      )}
+
+      {loading && (
+        <div className="flex flex-col items-center z-10">
+          <div className="w-12 h-12 border-t-2 border-primary rounded-full animate-spin shadow-[0_0_15px_currentColor] mb-6" />
+          <span className="label-sm text-primary animate-pulse text-xs tracking-[0.3em] drop-shadow-[0_0_5px_currentColor]">SYNTHESIZING...</span>
+        </div>
+      )}
+
+      {insight && !loading && (
+        <div className="w-full h-full p-8 md:p-12 flex flex-col justify-center z-10">
+          <h3 className="label-sm mb-6 text-white/50">// INTELLIGENCE OUTPUT</h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 border-b border-white/[0.05] pb-8 mb-8">
+            <div>
+              <p className="label-sm text-white/40 mb-2">BEST LAP</p>
+              <p className="font-display text-4xl font-bold text-primary drop-shadow-[0_0_15px_currentColor] tracking-tighter">
+                {insight.best_lap_sec ? `${insight.best_lap_sec.toFixed(3)}s` : formatRawLapTime(insight.best_lap)}
+              </p>
             </div>
-            <h3 className="font-display text-4xl font-bold text-white mb-2 tracking-tighter drop-shadow-md">AI VECTOR ENGINE</h3>
-            <p className="text-white/40 font-light mb-8 max-w-sm">
-               Generate comprehensive insights combining race analysis, sector breakdown, and performance predictions.
+            <div>
+              <p className="label-sm text-white/40 mb-2">AVERAGE LAP</p>
+              <p className="font-display text-4xl font-bold text-white drop-shadow-md tracking-tighter">
+                {insight.average_lap_sec ? `${insight.average_lap_sec.toFixed(3)}s` : formatRawLapTime(insight.average_lap)}
+              </p>
+            </div>
+            <div>
+              <p className="label-sm text-white/40 mb-2">STD DEVIATION</p>
+              <p className="font-display text-4xl font-bold text-white/60 tracking-tighter">
+                ±{insight.std_dev || '—'}s
+              </p>
+            </div>
+          </div>
+
+          {/* INSIGHT TEXT */}
+          <div className="relative pl-8 bg-white/[0.01] p-6 rounded-xl border border-white/[0.02] mb-8">
+            <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-primary to-transparent shadow-[0_0_10px_currentColor]" />
+            <p className="font-display text-2xl lg:text-3xl font-bold text-white/90 leading-snug tracking-tight mb-4">
+              <span className="text-primary drop-shadow-[0_0_8px_currentColor]">{driverCode}</span> {insight.summary?.replace(driverCode + " completed ", "completed ")}
             </p>
-            <button onClick={fetchInsight} className="text-xs uppercase tracking-widest font-bold text-surface-low bg-primary px-8 py-4 rounded-full shadow-[0_0_20px_var(--primary)] hover:brightness-125 transition-all outline-none border-none">
-               GENERATE INSIGHT
-            </button>
+            <p className="text-base font-light text-white/60 leading-relaxed max-w-3xl">
+              {insight.insight}
+            </p>
           </div>
-       )}
 
-       {loading && (
-          <div className="flex flex-col items-center z-10">
-             <div className="w-12 h-12 border-t-2 border-primary rounded-full animate-spin shadow-[0_0_15px_currentColor] mb-6" />
-             <span className="label-sm text-primary animate-pulse text-xs tracking-[0.3em] drop-shadow-[0_0_5px_currentColor]">SYNTHESIZING...</span>
-          </div>
-       )}
-
-       {insight && !loading && (
-          <div className="w-full h-full p-8 md:p-12 flex flex-col justify-center z-10">
-             <h3 className="label-sm mb-6 text-white/50">// INTELLIGENCE OUTPUT</h3>
-             
-             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 border-b border-white/[0.05] pb-8 mb-8">
-                <div>
-                   <p className="label-sm text-white/40 mb-2">BEST LAP</p>
-                   <p className="font-display text-4xl font-bold text-primary drop-shadow-[0_0_15px_currentColor] tracking-tighter">
-                      {insight.best_lap_sec ? `${insight.best_lap_sec.toFixed(3)}s` : formatRawLapTime(insight.best_lap)}
-                   </p>
-                </div>
-                <div>
-                   <p className="label-sm text-white/40 mb-2">AVERAGE LAP</p>
-                   <p className="font-display text-4xl font-bold text-white drop-shadow-md tracking-tighter">
-                      {insight.average_lap_sec ? `${insight.average_lap_sec.toFixed(3)}s` : formatRawLapTime(insight.average_lap)}
-                   </p>
-                </div>
-                <div>
-                   <p className="label-sm text-white/40 mb-2">STD DEVIATION</p>
-                   <p className="font-display text-4xl font-bold text-white/60 tracking-tighter">
-                      ±{insight.std_dev || '—'}s
-                   </p>
-                </div>
-             </div>
-
-             {/* INSIGHT TEXT */}
-             <div className="relative pl-8 bg-white/[0.01] p-6 rounded-xl border border-white/[0.02] mb-8">
-                <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-primary to-transparent shadow-[0_0_10px_currentColor]" />
-                <p className="font-display text-2xl lg:text-3xl font-bold text-white/90 leading-snug tracking-tight mb-4">
-                  <span className="text-primary drop-shadow-[0_0_8px_currentColor]">{driverCode}</span> {insight.summary?.replace(driverCode + " completed ", "completed ")}
-                </p>
-                <p className="text-base font-light text-white/60 leading-relaxed max-w-3xl">
-                  {insight.insight}
-                </p>
-             </div>
-
-             {/* SECTOR DEEP INSIGHTS */}
-             {sectorDeep && !sectorDeep.error && (
-               <div className="space-y-4">
-                 <h4 className="label-sm text-white/40">SECTOR DEEP ANALYSIS</h4>
-                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                   {['sector1', 'sector2', 'sector3'].map((key, i) => {
-                     const s = sectorDeep[key];
-                     if (!s) return null;
-                     const colors = ['#ff9100', '#00D2BE', '#ffffff'];
-                     return (
-                       <div key={key} className="p-5 rounded-xl bg-black/20 border border-white/[0.03]">
-                         <div className="flex items-center gap-2 mb-3">
-                           <div className="w-2 h-2 rounded-full" style={{ background: colors[i] }} />
-                           <span className="label-sm text-white/50">SECTOR {i + 1}</span>
-                         </div>
-                         <p className="font-display text-2xl font-bold text-white mb-1">{s.mean}s <span className="text-xs text-white/30 font-light">avg</span></p>
-                         <p className="text-xs text-white/30">Best: {s.best}s (Lap {s.best_lap}) • Worst: {s.worst}s (Lap {s.worst_lap})</p>
-                         {s.spike_count > 0 && <p className="text-xs text-red-400 mt-1">{s.spike_count} anomalous spike{s.spike_count > 1 ? 's' : ''} detected</p>}
-                       </div>
-                     );
-                   })}
-                 </div>
-                 <div className="p-5 bg-black/30 rounded-xl border border-white/[0.03] mt-4">
-                   <p className="text-xs text-white/30 uppercase tracking-widest mb-2 font-bold">Weakest: {sectorDeep.weakest_sector} • Strongest: {sectorDeep.strongest_sector}</p>
-                   <p className="text-sm text-white/70 font-light leading-relaxed">{sectorDeep.insight_basic}</p>
-                 </div>
-               </div>
-             )}
-          </div>
-       )}
+          {/* SECTOR DEEP INSIGHTS */}
+          {sectorDeep && !sectorDeep.error && (
+            <div className="space-y-4">
+              <h4 className="label-sm text-white/40">SECTOR DEEP ANALYSIS</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {['sector1', 'sector2', 'sector3'].map((key, i) => {
+                  const s = sectorDeep[key];
+                  if (!s) return null;
+                  const colors = ['#ff9100', '#00D2BE', '#ffffff'];
+                  return (
+                    <div key={key} className="p-5 rounded-xl bg-black/20 border border-white/[0.03]">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="w-2 h-2 rounded-full" style={{ background: colors[i] }} />
+                        <span className="label-sm text-white/50">SECTOR {i + 1}</span>
+                      </div>
+                      <p className="font-display text-2xl font-bold text-white mb-1">{s.mean}s <span className="text-xs text-white/30 font-light">avg</span></p>
+                      <p className="text-xs text-white/30">Best: {s.best}s (Lap {s.best_lap}) • Worst: {s.worst}s (Lap {s.worst_lap})</p>
+                      {s.spike_count > 0 && <p className="text-xs text-red-400 mt-1">{s.spike_count} anomalous spike{s.spike_count > 1 ? 's' : ''} detected</p>}
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="p-5 bg-black/30 rounded-xl border border-white/[0.03] mt-4">
+                <p className="text-xs text-white/30 uppercase tracking-widest mb-2 font-bold">Weakest: {sectorDeep.weakest_sector} • Strongest: {sectorDeep.strongest_sector}</p>
+                <p className="text-sm text-white/70 font-light leading-relaxed">{sectorDeep.insight_basic}</p>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </Card>
   );
 }
