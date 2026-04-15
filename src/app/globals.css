@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --surface: #0e0e0e;
+  --surface-low: #0a0a0a;
+  --surface-high: #141414;
+  --surface-highest: rgba(25, 25, 25, 0.4);
+  
+  --primary: #4ff5df;
+  --primary-container: #22dbc6;
+  --primary-dim: #1ea394;
+  --outline-variant: rgba(255, 255, 255, 0.06);
+  
+  --f1-red: #ff0b00;
+  --team-red: #ff1300;
+  --team-teal: #00e5dc;
+  --team-blue: #1c1aff;
+  --team-orange: #ff9100;
+
+  /* Global primary-aware transition */
+  --transition-color: color 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                      background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                      box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                      border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@theme inline {
+  --color-surface: var(--surface);
+  --color-surface-low: var(--surface-low);
+  --color-surface-high: var(--surface-high);
+  --color-surface-highest: var(--surface-highest);
+  --color-primary: var(--primary);
+  --color-primary-container: var(--primary-container);
+  --color-outline-variant: var(--outline-variant);
+
+  --color-team-red: var(--team-red);
+  --color-team-teal: var(--team-teal);
+  --color-team-blue: var(--team-blue);
+  --color-team-orange: var(--team-orange);
+
+  --font-display: var(--font-space), "Space Grotesk", sans-serif;
+  --font-body: var(--font-inter), "Inter", sans-serif;
+}
+
+body {
+  background: var(--surface);
+  color: #ffffff;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ─── Typography ─── */
+.display-lg {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.label-sm {
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* ─── Shadows ─── */
+.shadow-ghost {
+  box-shadow: 0 0 40px 0 rgba(79, 245, 223, 0.08);
+}
+.shadow-team {
+  box-shadow: 0 0 30px -5px var(--primary);
+}
+
+/* ─── Scrollbar ─── */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ─── Animations ─── */
+@layer utilities {
+  .animate-page-in {
+    animation: pageFadeIn 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .animate-tab-in {
+    animation: tabSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .animate-fade-up {
+    animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .animate-glow-pulse {
+    animation: glowPulse 3s ease-in-out infinite;
+  }
+}
+
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes tabSlideIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.06; }
+  50%       { opacity: 0.12; }
+}
+
+/* ─── Glass utility ─── */
+.glass {
+  background: rgba(255, 255, 255, 0.015);
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+}
+
+/* ─── Primary-aware hover glow ─── */
+.hover-glow:hover {
+  box-shadow: 0 0 30px -4px var(--primary);
+}
