@@ -239,7 +239,28 @@ function SpeedTab({ telemetry, isLoading, driverCode }: { telemetry: any, isLoad
                  if (Math.abs(getX(match.lap) - mouseX) < 30) setHoveredLap(match);
               }
             }}
-            onMouseLeave={() => setHoveredLap(null)}>
+            onTouchStart={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const mouseX = e.touches[0].clientX - rect.left;
+              if (dataPoints.length > 0) {
+                 const match = dataPoints.reduce((prev, curr) => 
+                   Math.abs(getX(curr.lap) - mouseX) < Math.abs(getX(prev.lap) - mouseX) ? curr : prev
+                 );
+                 if (Math.abs(getX(match.lap) - mouseX) < 50) setHoveredLap(match);
+              }
+            }}
+            onTouchMove={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const mouseX = e.touches[0].clientX - rect.left;
+              if (dataPoints.length > 0) {
+                 const match = dataPoints.reduce((prev, curr) => 
+                   Math.abs(getX(curr.lap) - mouseX) < Math.abs(getX(prev.lap) - mouseX) ? curr : prev
+                 );
+                 if (Math.abs(getX(match.lap) - mouseX) < 50) setHoveredLap(match);
+              }
+            }}
+            onMouseLeave={() => setHoveredLap(null)}
+            onTouchEnd={() => setTimeout(() => setHoveredLap(null), 2000)}>
             {[0, 0.5, 1].map(pct => (
               <line key={`g-${pct}`} x1={paddingX} y1={paddingY + pct * (height - paddingY - paddingB)} x2={width - 40} y2={paddingY + pct * (height - paddingY - paddingB)} stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
             ))}
