@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Card } from "./Card";
 import { useSession } from "@/components/providers/SessionProvider";
+import { BASE_URL } from "@/lib/api";
 
 const TABS = ["Performance Trend", "Race Strategy", "Sector Breakdown", "Lap Data Table", "Driver Comparison", "Comparison Table", "Statistics & Prediction", "AI Insights"];
 
@@ -13,7 +14,7 @@ export function DriverStats({ driverCode }: { driverCode: string }) {
   useEffect(() => {
     if (!driverCode) return;
     setSummary(null);
-    fetch(`http://127.0.0.1:8000/driver-summary?year=${year}&gp=${gp}&driver=${driverCode}`)
+    fetch(`${BASE_URL}/driver-summary?year=${year}&gp=${gp}&driver=${driverCode}`)
       .then(res => res.json())
       .then(data => setSummary(data))
       .catch(console.error);
@@ -64,7 +65,7 @@ export function DriverTabs({ driverCode }: { driverCode: string }) {
     async function loadTelemetry() {
       setLoading(true);
       try {
-        const response = await fetch(`http://127.0.0.1:8000/driver-data?year=${year}&gp=${gp}&driver=${driverCode}`);
+        const response = await fetch(`${BASE_URL}/driver-data?year=${year}&gp=${gp}&driver=${driverCode}`);
         const data = await response.json();
         setTelemetry(data);
       } catch (err) {
@@ -293,7 +294,7 @@ function TyresTab({ driverCode }: { driverCode: string }) {
   const [data, setData] = useState<any>(null);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/ai-strategy?year=${year}&gp=${gp}&driver=${driverCode}`).then(r=>r.json()).then(d=>setData(d)).catch(console.error);
+    fetch(`${BASE_URL}/ai-strategy?year=${year}&gp=${gp}&driver=${driverCode}`).then(r=>r.json()).then(d=>setData(d)).catch(console.error);
   }, [driverCode, year, gp]);
 
   if (!data) return <Card className="min-h-[400px] flex items-center justify-center border-none shadow-[0_10px_30px_rgba(0,0,0,0.5)] bg-white/[0.02]"><div className="w-8 h-8 rounded-full border-t-2 border-primary animate-spin" /></Card>;
@@ -344,7 +345,7 @@ function SectorTab({ driverCode }: { driverCode: string }) {
   const [data, setData] = useState<any>(null);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/sector-analysis?year=${year}&gp=${gp}&driver=${driverCode}`).then(r=>r.json()).then(d=>setData(d)).catch(console.error);
+    fetch(`${BASE_URL}/sector-analysis?year=${year}&gp=${gp}&driver=${driverCode}`).then(r=>r.json()).then(d=>setData(d)).catch(console.error);
   }, [driverCode, year, gp]);
 
   if (!data) return <Card className="min-h-[400px] flex items-center justify-center border-none shadow-[0_10px_30px_rgba(0,0,0,0.5)] bg-white/[0.02]"><div className="w-8 h-8 rounded-full border-t-2 border-primary animate-spin" /></Card>;
@@ -448,7 +449,7 @@ function CompareTab({ driverCode }: { driverCode: string }) {
 
   useEffect(() => {
      setLoading(true);
-     fetch(`http://127.0.0.1:8000/compare?year=${year}&gp=${gp}&d1=${driverCode}&d2=${targetRival}`)
+     fetch(`${BASE_URL}/compare?year=${year}&gp=${gp}&d1=${driverCode}&d2=${targetRival}`)
       .then(r=>r.json()).then(d=>setData(d)).catch(console.error).finally(()=>setLoading(false));
   }, [driverCode, targetRival, year, gp]);
 
@@ -557,7 +558,7 @@ function LapTableTab({ driverCode }: { driverCode: string }) {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`http://127.0.0.1:8000/lap-table?year=${year}&gp=${gp}&driver=${driverCode}`)
+    fetch(`${BASE_URL}/lap-table?year=${year}&gp=${gp}&driver=${driverCode}`)
       .then(r => r.json()).then(d => setData(d)).catch(console.error).finally(() => setLoading(false));
   }, [driverCode, year, gp]);
 
@@ -710,7 +711,7 @@ function ComparisonTableTab({ driverCode }: { driverCode: string }) {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`http://127.0.0.1:8000/driver-comparison-table?year=${year}&gp=${gp}&d1=${driverCode}&d2=${rival}`)
+    fetch(`${BASE_URL}/driver-comparison-table?year=${year}&gp=${gp}&d1=${driverCode}&d2=${rival}`)
       .then(r => r.json()).then(d => setData(d)).catch(console.error).finally(() => setLoading(false));
   }, [driverCode, rival, year, gp]);
 
@@ -837,8 +838,8 @@ function StatsTab({ driverCode }: { driverCode: string }) {
   useEffect(() => {
     setLoading(true);
     Promise.all([
-      fetch(`http://127.0.0.1:8000/stats?year=${year}&gp=${gp}&driver=${driverCode}`).then(r=>r.json()),
-      fetch(`http://127.0.0.1:8000/predict?year=${year}&gp=${gp}&driver=${driverCode}`).then(r=>r.json()),
+      fetch(`${BASE_URL}/stats?year=${year}&gp=${gp}&driver=${driverCode}`).then(r=>r.json()),
+      fetch(`${BASE_URL}/predict?year=${year}&gp=${gp}&driver=${driverCode}`).then(r=>r.json()),
     ]).then(([s, p]) => { setStats(s); setPrediction(p); })
       .catch(console.error).finally(() => setLoading(false));
   }, [driverCode, year, gp]);
@@ -971,8 +972,8 @@ function AITab({ driverCode }: { driverCode: string }) {
     setLoading(true);
     try {
       const [ai, deep] = await Promise.all([
-        fetch(`http://127.0.0.1:8000/ai-insight?year=${year}&gp=${gp}&driver=${driverCode}`).then(r=>r.json()),
-        fetch(`http://127.0.0.1:8000/sector-deep?year=${year}&gp=${gp}&driver=${driverCode}`).then(r=>r.json()),
+        fetch(`${BASE_URL}/ai-insight?year=${year}&gp=${gp}&driver=${driverCode}`).then(r=>r.json()),
+        fetch(`${BASE_URL}/sector-deep?year=${year}&gp=${gp}&driver=${driverCode}`).then(r=>r.json()),
       ]);
       setInsight(ai);
       setSectorDeep(deep);

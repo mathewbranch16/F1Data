@@ -5,6 +5,7 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { Card } from "@/components/ui/Card";
 import { useSession } from "@/components/providers/SessionProvider";
 import { getDriverData } from "@/lib/team-colors";
+import { BASE_URL } from "@/lib/api";
 
 function parseLapTime(lapTimeStr: string): number | null {
   if (!lapTimeStr || lapTimeStr === "NaT" || lapTimeStr === "null" || lapTimeStr === "0") return null;
@@ -35,7 +36,7 @@ export default function AnalysisPage() {
 
   useEffect(() => {
     setDriversLoading(true);
-    fetch(`http://127.0.0.1:8000/drivers?year=${year}&gp=${gp}`)
+    fetch(`${BASE_URL}/drivers?year=${year}&gp=${gp}`)
       .then(r => r.json()).then(data => {
         const list = data.drivers || [];
         setDrivers(list);
@@ -47,8 +48,8 @@ export default function AnalysisPage() {
     if (!d1 || !d2 || d1 === d2) return;
     setLoading(true);
     Promise.all([
-      fetch(`http://127.0.0.1:8000/compare?year=${year}&gp=${gp}&d1=${d1}&d2=${d2}`).then(r=>r.json()),
-      fetch(`http://127.0.0.1:8000/ai-compare?year=${year}&gp=${gp}&d1=${d1}&d2=${d2}`).then(r=>r.json()),
+      fetch(`${BASE_URL}/compare?year=${year}&gp=${gp}&d1=${d1}&d2=${d2}`).then(r=>r.json()),
+      fetch(`${BASE_URL}/ai-compare?year=${year}&gp=${gp}&d1=${d1}&d2=${d2}`).then(r=>r.json()),
     ]).then(([cmp, ai]) => { setCompareData(cmp); setAiCompare(ai); })
       .catch(console.error).finally(() => setLoading(false));
   }, [d1, d2, year, gp]);

@@ -159,7 +159,7 @@ export default function Home() {
       {/* ═══════════════════════════════════════════
           HERO SECTION — FULL-VIEWPORT IMMERSIVE
       ═══════════════════════════════════════════ */}
-      <section ref={heroRef} className="relative h-[120vh] flex items-center justify-center overflow-hidden">
+      <section ref={heroRef} className="relative h-screen flex items-center justify-center overflow-hidden">
         {/* Parallax Background Layer (moves slower) */}
         <motion.div className="absolute inset-0 z-0 pointer-events-none" style={{ y: bgY }}>
           {/* Neon diagonal streaks */}

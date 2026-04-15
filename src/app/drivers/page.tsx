@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/Card";
 import Link from "next/link";
 import { useTheme } from "@/components/providers/ThemeProvider";
 import { useSession } from "@/components/providers/SessionProvider";
+import { BASE_URL } from "@/lib/api";
 import { getDriverData } from "@/lib/team-colors";
 
 export default function DriversPage() {
@@ -18,7 +19,7 @@ export default function DriversPage() {
   useEffect(() => {
     setLoading(true);
     setError(null);
-    fetch(`http://127.0.0.1:8000/drivers?year=${year}&gp=${gp}`)
+    fetch(`${BASE_URL}/drivers?year=${year}&gp=${gp}`)
       .then(res => {
         if (!res.ok) throw new Error(`API error ${res.status}`);
         return res.json();

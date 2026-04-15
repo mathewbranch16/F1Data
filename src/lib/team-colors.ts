@@ -1,7 +1,7 @@
 export const TEAM_COLORS = {
   default: '#4ff5df',
   mercedes: '#00D2BE',
-  redbull: '#0600EF', 
+  redbull: '#0600EF',
   ferrari: '#DC0000',
   mclaren: '#FF8700',
   astonmartin: '#006F62',
@@ -36,7 +36,14 @@ export const DRIVER_DATA: Record<string, { name: string, team: string, number: n
   BOT: { name: "Valtteri Bottas", team: "Alfa Romeo", number: 77, teamId: "sauber" },
   ZHO: { name: "Zhou Guanyu", team: "Alfa Romeo", number: 24, teamId: "sauber" },
   HUL: { name: "Nico Hulkenberg", team: "Haas", number: 27, teamId: "haas" },
-  MAG: { name: "Kevin Magnussen", team: "Haas", number: 20, teamId: "haas" }
+  MAG: { name: "Kevin Magnussen", team: "Haas", number: 20, teamId: "haas" },
+  LAT: { name: "Nicholas Latifi", team: "Williams", number: 6, teamId: "williams" },
+  MSC: { name: "Mick Schumacher", team: "Haas", number: 47, teamId: "haas" },
+  RAI: { name: "Kimi Raikkonen", team: "Alfa Romeo", number: 7, teamId: "sauber" },
+  GIO: { name: "Antonio Giovinazzi", team: "Alfa Romeo", number: 99, teamId: "sauber" },
+  VET: { name: "Sebastian Vettel", team: "Aston Martin", number: 5, teamId: "astonmartin" },
+  MAZ: { name: "Nikita Mazepin", team: "Haas", number: 9, teamId: "haas" },
+  KVY: { name: "Daniil Kvyat", team: "AlphaTauri", number: 26, teamId: "rb" },
 };
 
 export function getDriverData(code: string) {

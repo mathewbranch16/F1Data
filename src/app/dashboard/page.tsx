@@ -7,6 +7,7 @@ import { useSession } from "@/components/providers/SessionProvider";
 import { useTheme } from "@/components/providers/ThemeProvider";
 import { getDriverData } from "@/lib/team-colors";
 import Link from "next/link";
+import { BASE_URL } from "@/lib/api";
 
 export default function DashboardPage() {
   const { year, setYear, gp, setGp } = useSession();
@@ -27,7 +28,7 @@ export default function DashboardPage() {
   useEffect(() => {
     setLoading(true);
     setError(null);
-    fetch(`http://127.0.0.1:8000/drivers?year=${year}&gp=${gp}`)
+    fetch(`${BASE_URL}/drivers?year=${year}&gp=${gp}`)
       .then(res => {
         if (!res.ok) throw new Error(`API returned ${res.status}`);
         return res.json();
