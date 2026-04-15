@@ -40,12 +40,25 @@ export default function AnalysisPage() {
       .then(r => r.json()).then(data => {
         const list = data.drivers || [];
         setDrivers(list);
-        if (list.length >= 2) { setD1(list[0]); setD2(list[1]); }
+        if (list.length >= 2) {
+           // Preserve selections if possible
+           const newD1 = list.includes(d1) ? d1 : list[0];
+           const newD2 = list.includes(d2) && newD1 !== d2 ? d2 : (list[1] !== newD1 ? list[1] : list[2] || list[1]);
+           setD1(newD1);
+           setD2(newD2);
+        } else {
+           setD1("");
+           setD2("");
+        }
       }).catch(console.error).finally(() => setDriversLoading(false));
   }, [year, gp]);
 
   useEffect(() => {
-    if (!d1 || !d2 || d1 === d2) return;
+    if (!d1 || !d2 || d1 === d2) {
+      setCompareData(null);
+      setAiCompare(null);
+      return;
+    }
     setLoading(true);
     Promise.all([
       fetch(`${BASE_URL}/compare?year=${year}&gp=${gp}&d1=${d1}&d2=${d2}`).then(r=>r.json()),
@@ -136,8 +149,10 @@ export default function AnalysisPage() {
 
           {loading ? (
             <div className="flex-1 flex items-center justify-center min-h-[350px]"><div className="w-10 h-10 rounded-full border-t-2 border-primary animate-spin" /></div>
-          ) : allPts.length === 0 ? (
+          ) : !d1 || !d2 || d1 === d2 ? (
             <div className="flex-1 flex items-center justify-center min-h-[350px]"><p className="text-white/30 font-light">Select two different drivers to compare.</p></div>
+          ) : allPts.length === 0 ? (
+            <div className="flex-1 flex items-center justify-center min-h-[350px]"><p className="text-white/30 font-light">No overlap data available for these drivers.</p></div>
           ) : (
             <div className="w-full relative mt-4 h-[380px]">
               <svg className="w-full h-full overflow-visible" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none">

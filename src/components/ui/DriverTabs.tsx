@@ -79,7 +79,7 @@ export function DriverTabs({ driverCode }: { driverCode: string }) {
 
   return (
     <div className="w-full flex flex-col gap-10 mt-8">
-      <div className="flex gap-8 border-b border-white/[0.05] pb-0 overflow-x-auto scrollbar-hide relative z-20">
+      <div className="flex gap-4 md:gap-8 border-b border-white/[0.05] pb-0 overflow-x-auto hide-scrollbar snap-x relative z-20">
         {TABS.map((tab, idx) => (
           <button 
              key={tab}
@@ -226,8 +226,9 @@ function SpeedTab({ telemetry, isLoading, driverCode }: { telemetry: any, isLoad
           )}
        </div>
 
-       <div className="flex-1 w-full relative z-10 mt-6 cursor-crosshair">
-          <svg className="w-full h-full overflow-visible" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none">
+       <div className="flex-1 w-full relative z-10 mt-6 cursor-crosshair overflow-x-auto hide-scrollbar">
+         <div className="min-w-[800px] h-[300px] sm:h-[400px] md:h-full relative overflow-visible">
+           <svg className="w-full h-full overflow-visible" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none">
              {[0, 0.5, 1].map(pct => (
                <line key={`g-${pct}`} x1={paddingX} y1={paddingY + pct * (height - paddingY - paddingB)} x2={width - 40} y2={paddingY + pct * (height - paddingY - paddingB)} stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
              ))}
@@ -281,6 +282,7 @@ function SpeedTab({ telemetry, isLoading, driverCode }: { telemetry: any, isLoad
                 </g>
              )}
           </svg>
+         </div>
        </div>
     </Card>
   );
@@ -419,8 +421,9 @@ function SectorTab({ driverCode }: { driverCode: string }) {
           </ul>
        </div>
 
-       <div className="w-full relative mt-4 h-[350px]">
-         <svg className="w-full h-full overflow-visible" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none">
+       <div className="w-full overflow-x-auto hide-scrollbar mt-4 relative z-10">
+         <div className="min-w-[800px] h-[350px] relative">
+           <svg className="w-full h-full overflow-visible" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none">
              {[0, 0.5, 1].map(pct => (
                <line key={`g-${pct}`} x1={60} y1={40 + pct * (height - 100)} x2={width - 40} y2={40 + pct * (height - 100)} stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
              ))}
@@ -522,8 +525,9 @@ function CompareTab({ driverCode }: { driverCode: string }) {
        {loading ? (
          <div className="w-full h-[300px] flex items-center justify-center"><div className="w-8 h-8 rounded-full border-t-2 border-primary animate-spin" /></div>
        ) : (
-         <div className="w-full relative mt-8 h-[350px]">
-           <svg className="w-full h-full overflow-visible" viewBox="0 0 1000 450" preserveAspectRatio="none">
+         <div className="w-full overflow-x-auto hide-scrollbar mt-8 relative z-10">
+           <div className="min-w-[800px] h-[350px] relative">
+             <svg className="w-full h-full overflow-visible" viewBox="0 0 1000 450" preserveAspectRatio="none">
                {[0, 0.5, 1].map(pct => (
                  <line key={`g-${pct}`} x1={60} y1={40 + pct * (height - 100)} x2={width - 40} y2={40 + pct * (height - 100)} stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
                ))}
@@ -532,7 +536,8 @@ function CompareTab({ driverCode }: { driverCode: string }) {
 
                <path d={generateSmoothPath(p1, width, height, minLap, maxLap, minTime, maxTime)} fill="none" stroke="var(--primary)" strokeWidth="3" vectorEffect="non-scaling-stroke" className="drop-shadow-[0_0_10px_var(--primary)]" />
                <path d={generateSmoothPath(p2, width, height, minLap, maxLap, minTime, maxTime)} fill="none" stroke="#FFFFFF" strokeWidth="2" vectorEffect="non-scaling-stroke" strokeDasharray="6 6" className="drop-shadow-[0_0_8px_#ffffff] opacity-70" />
-           </svg>
+             </svg>
+           </div>
          </div>
        )}
     </Card>
@@ -624,8 +629,9 @@ function LapTableTab({ driverCode }: { driverCode: string }) {
         </p>
       </div>
 
-      <Card className="border-none shadow-[0_10px_30px_rgba(0,0,0,0.5)] bg-white/[0.02] overflow-x-auto">
-        <table className="w-full text-left text-sm">
+      <Card className="border-none shadow-[0_10px_30px_rgba(0,0,0,0.5)] bg-white/[0.02] overflow-x-auto hide-scrollbar p-0">
+        <div className="w-full min-w-[750px] p-6">
+          <table className="w-full text-left text-sm">
           <thead>
             <tr className="border-b border-white/[0.05]">
               {COLS.map(c => (
@@ -668,7 +674,8 @@ function LapTableTab({ driverCode }: { driverCode: string }) {
               );
             })}
           </tbody>
-        </table>
+          </table>
+        </div>
       </Card>
 
       <div className="flex gap-4 text-[10px] text-white/30 uppercase tracking-widest font-bold px-2">
@@ -767,8 +774,9 @@ function ComparisonTableTab({ driverCode }: { driverCode: string }) {
           <div className="w-10 h-10 rounded-full border-t-2 border-primary animate-spin" />
         </Card>
       ) : (
-        <Card className="border-none shadow-[0_10px_30px_rgba(0,0,0,0.5)] bg-white/[0.02] overflow-x-auto">
-          <table className="w-full text-left text-sm">
+        <Card className="border-none shadow-[0_10px_30px_rgba(0,0,0,0.5)] bg-white/[0.02] overflow-x-auto hide-scrollbar p-0">
+          <div className="w-full min-w-[700px] p-6">
+            <table className="w-full text-left text-sm">
             <thead>
               <tr className="border-b border-white/[0.05]">
                 <th className="px-4 py-4 label-sm text-white/40 w-14">LAP</th>
@@ -818,7 +826,8 @@ function ComparisonTableTab({ driverCode }: { driverCode: string }) {
                 );
               })}
             </tbody>
-          </table>
+            </table>
+          </div>
         </Card>
       )}
     </div>

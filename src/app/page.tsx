@@ -192,7 +192,7 @@ export default function Home() {
           </motion.p>
 
           <motion.h1
-            className="font-display text-5xl md:text-7xl lg:text-[5.5rem] font-black tracking-[-0.04em] leading-[0.92] text-white mb-10"
+            className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] font-black tracking-[-0.04em] leading-[0.92] text-white mb-10"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 1, ease: [0.16, 1, 0.3, 1] }}
@@ -221,12 +221,12 @@ export default function Home() {
             transition={{ delay: 0.9, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
             <Link href="/dashboard">
-              <Button variant="primary" className="w-full sm:w-auto h-16 px-14 text-base shadow-[0_0_40px_currentColor] font-bold tracking-widest">
+              <Button variant="primary" className="w-full sm:w-auto h-16 px-8 md:px-14 text-base shadow-[0_0_40px_currentColor] font-bold tracking-widest">
                 START ANALYSIS
               </Button>
             </Link>
             <Link href="/dashboard">
-              <Button variant="secondary" className="w-full sm:w-auto h-16 px-14 text-base shadow-[0_0_20px_rgba(255,255,255,0.05)] backdrop-blur-3xl bg-white/[0.02] font-bold tracking-widest">
+              <Button variant="secondary" className="w-full sm:w-auto h-16 px-8 md:px-14 text-base shadow-[0_0_20px_rgba(255,255,255,0.05)] backdrop-blur-3xl bg-white/[0.02] font-bold tracking-widest">
                 EXPLORE DASHBOARD
               </Button>
             </Link>
@@ -254,7 +254,7 @@ export default function Home() {
       {/* ═══════════════════════════════════════════
           FEATURES — SCROLL-DRIVEN REVEALS
       ═══════════════════════════════════════════ */}
-      <section className="relative z-10 py-32">
+      <section className="relative z-10 py-16 md:py-32">
         <PageContainer>
           <SectionHeader label="CAPABILITIES" title="What You Can Analyze" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16">
@@ -268,7 +268,7 @@ export default function Home() {
       {/* ═══════════════════════════════════════════
           HOW IT WORKS — STEPS WITH STAGGER
       ═══════════════════════════════════════════ */}
-      <section className="relative z-10 py-32">
+      <section className="relative z-10 py-16 md:py-32">
         <PageContainer>
           <SectionHeader label="WORKFLOW" title="How It Works" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16 max-w-4xl mx-auto mt-16">
@@ -282,7 +282,7 @@ export default function Home() {
       {/* ═══════════════════════════════════════════
           FINAL CTA — IMMERSIVE ENTRY
       ═══════════════════════════════════════════ */}
-      <section className="relative z-10 py-40 overflow-hidden">
+      <section className="relative z-10 py-20 md:py-40 overflow-hidden">
         {/* Converging glow */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] bg-primary rounded-full blur-[350px] opacity-[0.06] animate-glow-pulse" />
@@ -305,7 +305,7 @@ export default function Home() {
               Select a race, pick a driver, and receive instant visual analytics powered by real session telemetry.
             </p>
             <Link href="/dashboard">
-              <Button variant="primary" className="h-16 px-16 text-base shadow-[0_0_40px_currentColor] font-bold tracking-widest">
+              <Button variant="primary" className="h-16 px-8 md:px-16 text-base shadow-[0_0_40px_currentColor] font-bold tracking-widest">
                 ENTER DASHBOARD →
               </Button>
             </Link>
